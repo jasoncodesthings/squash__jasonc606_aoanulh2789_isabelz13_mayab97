@@ -1,0 +1,4 @@
+Trivia API does not require a sign-in to generate a key, and instead, allows the user to generate a key based on the desired difficulty, category, and type of questions. 
+With these selections, each API link would be unique; in this format: https://opentdb.com/api.php?amount=<QUESTION NUMBER>&category=<CATEGORY CODE>&difficulty=<LEVEL>&type= <MULTIPLECHOICE/TRUEFALSE>
+It allows 100,000 calls per month, but is limited to 11,000 questions. In order to avoid repeated questions, each session must be connected to a token, which would deactivate after 6 hours of inactivity. 
+The API will run on one continuous session that will track the last usage, and we will be able to use the category ID, question ID, and global question databases.  
