@@ -1,5 +1,6 @@
 jasonC -- 2025-11-04 7:05
-- updated design doc
+- INITIAL DD REVIEW
   - renamed some route names
   - honestly nothing else was needed based on feedback
 - added heading and roster in README
+- desc README
