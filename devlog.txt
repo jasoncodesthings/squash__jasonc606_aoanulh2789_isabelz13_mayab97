@@ -6,4 +6,8 @@ jasonC -- 2025-12-04 7:05
 - desc README
 
 isabelZ -- 2025-12-04 11:44
-- added TriviaAPI card and description in keys 
+- added TriviaAPI card and description in keys
+
+jasonC -- 2025-12-05 11:23
+- wrote rundown of Bored API
+  - transferred over everyone's work on API rundowns onto readme (which isabel says it's wrong oops)
