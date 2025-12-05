@@ -1,0 +1,7 @@
+# JokeAPI
+JokeAPI is a RESTful API that delivers formatted jokes. It can be used without the need for an API token and offers a variety of filters to provide suitable jokes for all audiences. The API requires only basic knowledge of HTTP requests, making it easy to integrate into our project. It contains approximately 1,368 jokes in 6 different languages. However, for our project, we will only use the English language. The API has a rate limit of 120 requests per minute, which should be sufficient enough for our project. Additionally we’ll apply safety filters to ensure the content aligns with school guidelines.
+
+Safety filters will be applied using the url parameter: “?safe-mode” . And using blacklist flags: “?blacklistFlags=nsfw, sexist, explicit, racist, political, religious”
+Language will be applied using the url parameter “?lang=langcode”.
+Api Link: https://v2.jokeapi.dev/joke/Any?safe-mode&blacklistFlags=nsfw,sexist,explicit,racist,political,religious&lang=en
+
