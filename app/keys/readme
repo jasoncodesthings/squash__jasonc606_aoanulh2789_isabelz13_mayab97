@@ -1,0 +1,26 @@
+# JokeAPI
+JokeAPI is a RESTful API that delivers formatted jokes. It can be used without the need for an API token and offers a variety of filters to provide suitable jokes for all audiences. The API requires only basic knowledge of HTTP requests, making it easy to integrate into our project. It contains approximately 1,368 jokes in 6 different languages. However, for our project, we will only use the English language. The API has a rate limit of 120 requests per minute, which should be sufficient enough for our project. Additionally we’ll apply safety filters to ensure the content aligns with school guidelines.
+
+Safety filters will be applied using the url parameter: “?safe-mode” . And using blacklist flags: “?blacklistFlags=nsfw, sexist, explicit, racist, political, religious”
+Language will be applied using the url parameter “?lang=langcode”.
+Api Link: https://v2.jokeapi.dev/joke/Any?safe-mode&blacklistFlags=nsfw,sexist,explicit,racist,political,religious&lang=en
+
+
+
+# Bored API
+The Bored API is quite simple as it does not require you to generate any key.
+	- The main link to the API is the documentation: https://bored-api.appbrewery.com/
+  - Dedicated link parameters are used to generate activities, with some optional filtering. Those parameters are concatenated to the main link.
+	   - Generate a random activity: /random
+	   - Filter by types of activities (the documentation provides the list of activity types): /filter?type=<ACTIVITY TYPE>
+	   - Filter by participants (# of people needed to do activity, choose between 1-8, except for 7): /filter?participants=<# OF PARTICIPANTS>
+	   - Filter by specific activity: /activity/<ID NUMBER>
+  - It returns a dictionary consisting of the activity name, type, how hard it is, how long it takes, and the unique ID number.
+
+
+
+
+# TriviaAPI
+Trivia API does not require a sign-in to generate a key, and instead, allows the user to generate a key based on the desired difficulty, category, and type of questions. With these selections, each API link would be unique; in this format: https://opentdb.com/api.php?amount=<QUESTION NUMBER>&category=<CATEGORY CODE>&difficulty=<LEVEL>&type= <MULTIPLECHOICE/TRUEFALSE>
+It allows 100,000 calls per month, but is limited to 11,000 questions. In order to avoid repeated questions, each session must be connected to a token, which would deactivate after 6 hours of inactivity.
+The API will run on one continuous session that will track the last usage, and we will be able to use the category ID, question ID, and global question databases.
