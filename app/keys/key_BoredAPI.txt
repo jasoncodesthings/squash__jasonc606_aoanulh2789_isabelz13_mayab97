@@ -1,0 +1,12 @@
+# Bored API
+The Bored API is quite simple as it does not require you to generate any key.
+	- The main link to the API is the documentation: https://bored-api.appbrewery.com/
+  - Dedicated link parameters are used to generate activities, with some optional filtering. Those parameters are concatenated to the main link.
+	   - Generate a random activity: /random
+	   - Filter by types of activities (the documentation provides the list of activity types): /filter?type=<ACTIVITY TYPE>
+	   - Filter by participants (# of people needed to do activity, choose between 1-8, except for 7): /filter?participants=<# OF PARTICIPANTS>
+	   - Filter by specific activity: /activity/<ID NUMBER>
+  - It returns a dictionary consisting of the activity name, type, how hard it is, how long it takes, and the unique ID number.
+
+
+
