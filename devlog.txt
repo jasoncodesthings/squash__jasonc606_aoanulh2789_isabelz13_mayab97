@@ -8,9 +8,9 @@ jasonC -- 2025-12-04 7:05
 isabelZ -- 2025-12-04 11:44
 - added TriviaAPI card and description in keys 
 
-AoanulH -- 2025-12-05 11:30 
-- Set up basic requirements.txt (will add needed dependencies once project is completed)
-
 jasonC -- 2025-12-05 11:23
 - wrote rundown of Bored API
 - transferred over everyone's work on API rundowns onto readme (which isabel says it's wrong oops)
+
+AoanulH -- 2025-12-05 11:30 
+- Set up basic requirements.txt (will add needed dependencies once project is completed)
