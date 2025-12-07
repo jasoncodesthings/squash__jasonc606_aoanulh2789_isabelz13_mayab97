@@ -14,3 +14,8 @@ jasonC -- 2025-12-05 11:23
 
 AoanulH -- 2025-12-05 11:30 
 - Set up basic requirements.txt (will add needed dependencies once project is completed)
+
+MayaB -- 2025-12-07 16:51
+ - Finished middleware (started yesterday but left in some useless stuff)
+ - Decided to remove bio and signup date fields from table, updated middleware and design doc
+ - Tested to make sure everything in data.py works
