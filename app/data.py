@@ -1,16 +1,18 @@
 # Squash (Jason Chan, Aoanul Hoque, Isabel Zheng, Maya Berchin)
 # p01
 # SoftDev
+# 11/25/25--2025-12-22
+# Time spent: not that much on this file tbh, mostly recycling. ~40 mins?
 
-import sqlite3   #enable control of an sqlite database
-import secrets  # used to generate ids
-from datetime import datetime # for user signup date
-import hashlib   #for consistent hashes
+import sqlite3                      # enable control of an sqlite database
+from datetime import datetime       # for user signup date
+import hashlib                      #for consistent hashes
 
 
 #=============================MAKE=TABLES=============================#
 
-# make the database tables we need if they don't already exist
+
+# make the database table we need if it doesn't already exist
 
 # userdata
 def create_user_data():
@@ -31,3 +33,183 @@ def create_user_data():
 
     db.commit()
     db.close()
+    
+
+
+
+#=============================USERDATA=============================#
+
+
+#----------USERDATA-ACCESSORS----------#
+
+
+def get_all_users():
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT username FROM userdata').fetchall()
+
+    db.commit()
+    db.close()
+
+    return clean_list(data)
+
+
+def get_sign_up_date(username):
+    return get_field('userdata', 'username', username, 'sign_up_date')
+
+
+def get_bio(username):
+    return get_field('userdata', 'username', username, 'bio')
+
+
+def get_score(username):
+    return get_field('userdata', 'username', username, 'trivia_score')
+
+
+#----------USERDATA-MUTATORS----------#
+
+
+def add_to_score(username, points):
+    score = get_score(username)
+    score += points
+    if score >= 0:
+        modify_field("userdata", "username", username, "score", score)
+        return "success"
+    return "failure"
+
+
+#----------LOGIN-REGISTER-AUTH----------#
+
+
+# returns whether or not a user exists
+def user_exists(username):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    all_users = c.execute("SELECT username FROM userdata")
+
+    for user in all_users:
+        if (user[0] == username):
+            db.commit()
+            db.close()
+            return True
+
+    db.commit()
+    db.close()
+    return False
+
+
+# checks if provided password in login attempt matches user password
+def auth(username, password):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    if not user_exists(username):
+        db.commit()
+        db.close()
+
+        raise ValueError("Username does not exist")
+
+    # hash password here? (MUST MATCH other hash from register)
+    passpointer = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"')
+    real_pass = passpointer.fetchone()[0]
+
+    db.commit()
+    db.close()
+
+    password = password.encode('utf-8')
+
+    if real_pass != str(hashlib.sha256(password).hexdigest()):
+        raise ValueError("Incorrect password")
+
+    return True
+
+
+# adds a new user's data to user table
+def register_user(username, password):
+
+    if user_exists(username):
+        raise ValueError("Username already exists")
+
+    if password == "":
+        raise ValueError("You must enter a non-empty password")
+
+    # hash password here?
+    # retrieve date in yyyy-mm-dd format
+    date = datetime.today().strftime('%Y-%m-%d')
+
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    password = password.encode('utf-8')
+    password = str(hashlib.sha256(password).hexdigest())
+
+    c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", "{date}", NULL, 0)')
+
+    db.commit()
+    db.close()
+
+    return "success"
+
+
+#=============================GENERAL=HELPERS=============================#
+
+
+# wrapper method
+# used for a bunch of accessor methods; used when only 1 item should be returned
+def get_field(table, ID_fieldname, ID, field):
+    lst = get_field_list(table, ID_fieldname, ID, field)
+    if (len(lst) == 0):
+        return 'None'
+    return lst[0]
+
+
+# used for a bunch of accessor methods; used when a list of items in a certain field should be returned
+def get_field_list(table, ID_fieldname, ID, field):
+
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchall()
+
+    db.commit()
+    db.close()
+
+    return clean_list(data)
+
+
+# turn a list of tuples (returned by .fetchall()) into a 1d list
+def clean_list(raw_output):
+
+    clean_output = []
+    
+    for lst in raw_output:
+        for item in lst:
+            if str(item) != 'None':
+                clean_output += [item]
+
+    return clean_output
+
+
+def modify_field(table, ID_fieldname, ID, field, new_val):
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    c.execute(f'UPDATE {table} SET {field} = "{new_val}" WHERE {ID_fieldname} = "{ID}"')
+
+    db.commit()
+    db.close()
+
+
+#=============================MAIN=SCRIPT=============================#
+
+# make table
+create_user_data()
