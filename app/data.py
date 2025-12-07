@@ -5,7 +5,6 @@
 # Time spent: not that much on this file tbh, mostly recycling. ~40 mins?
 
 import sqlite3                      # enable control of an sqlite database
-from datetime import datetime       # for user signup date
 import hashlib                      #for consistent hashes
 
 
@@ -25,8 +24,6 @@ def create_user_data():
         CREATE TABLE IF NOT EXISTS userdata (
             username TEXT PRIMARY KEY NOT NULL,
             password TEXT NOT NULL,
-            sign_up_date DATE NOT NULL,
-            bio TEXT,
             trivia_score INT
         )"""
     )
@@ -57,23 +54,11 @@ def get_all_users():
     return clean_list(data)
 
 
-def get_sign_up_date(username):
-    return get_field('userdata', 'username', username, 'sign_up_date')
-
-
-def get_bio(username):
-    return get_field('userdata', 'username', username, 'bio')
-
-
 def get_score(username):
     return get_field('userdata', 'username', username, 'trivia_score')
 
 
 #----------USERDATA-MUTATORS----------#
-
-def change_bio(username, contents):
-    # get current list of stuff in the row
-    modify_field("userdata", "username", username, "bio", contents)
 
 
 def add_to_score(username, points):
@@ -134,19 +119,16 @@ def register_user(username, password):
     if password == "":
         raise ValueError("You must enter a non-empty password")
 
-    # hash password here?
-    # retrieve date in yyyy-mm-dd format
-    date = datetime.today().strftime('%Y-%m-%d')
-
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
+    # hash password here
     password = password.encode('utf-8')
     password = str(hashlib.sha256(password).hexdigest())
 
     # use ? for unsafe/user provided variables
-    c.execute(f'INSERT INTO userdata VALUES (?, ?, "{date}", NULL, 0)', (username, password,))
+    c.execute('INSERT INTO userdata VALUES (?, ?, 0)', (username, password,))
 
     db.commit()
     db.close()
