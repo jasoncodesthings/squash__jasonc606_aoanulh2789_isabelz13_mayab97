@@ -43,6 +43,7 @@ def create_user_data():
 #----------USERDATA-ACCESSORS----------#
 
 
+# returns a list of usernames
 def get_all_users():
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -70,12 +71,16 @@ def get_score(username):
 
 #----------USERDATA-MUTATORS----------#
 
+def change_bio(username, contents):
+    # get current list of stuff in the row
+    modify_field("userdata", "username", username, "bio", contents)
+
 
 def add_to_score(username, points):
     score = get_score(username)
     score += points
     if score >= 0:
-        modify_field("userdata", "username", username, "score", score)
+        modify_field("userdata", "username", username, "trivia_score", score)
         return "success"
     return "failure"
 
@@ -85,20 +90,10 @@ def add_to_score(username, points):
 
 # returns whether or not a user exists
 def user_exists(username):
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-
-    all_users = c.execute("SELECT username FROM userdata")
-
+    all_users = get_all_users()
     for user in all_users:
-        if (user[0] == username):
-            db.commit()
-            db.close()
+        if (user == username):
             return True
-
-    db.commit()
-    db.close()
     return False
 
 
@@ -114,15 +109,16 @@ def auth(username, password):
 
         raise ValueError("Username does not exist")
 
-    # hash password here? (MUST MATCH other hash from register)
-    passpointer = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"')
+    # use ? for unsafe/user provided variables
+    passpointer = c.execute('SELECT password FROM userdata WHERE username = ?', (username,))
     real_pass = passpointer.fetchone()[0]
 
     db.commit()
     db.close()
 
     password = password.encode('utf-8')
-
+    
+    # hash password here
     if real_pass != str(hashlib.sha256(password).hexdigest()):
         raise ValueError("Incorrect password")
 
@@ -149,7 +145,8 @@ def register_user(username, password):
     password = password.encode('utf-8')
     password = str(hashlib.sha256(password).hexdigest())
 
-    c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", "{date}", NULL, 0)')
+    # use ? for unsafe/user provided variables
+    c.execute(f'INSERT INTO userdata VALUES (?, ?, "{date}", NULL, 0)', (username, password,))
 
     db.commit()
     db.close()
@@ -175,8 +172,9 @@ def get_field_list(table, ID_fieldname, ID, field):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-
-    data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchall()
+    
+    # use ? for unsafe/user provided variables
+    data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = ?', (ID,)).fetchall()
 
     db.commit()
     db.close()
@@ -202,8 +200,9 @@ def modify_field(table, ID_fieldname, ID, field, new_val):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-
-    c.execute(f'UPDATE {table} SET {field} = "{new_val}" WHERE {ID_fieldname} = "{ID}"')
+    
+    # use ? for unsafe/user provided variables
+    c.execute(f'UPDATE {table} SET {field} = ? WHERE {ID_fieldname} = ?', (new_val, ID,))
 
     db.commit()
     db.close()
