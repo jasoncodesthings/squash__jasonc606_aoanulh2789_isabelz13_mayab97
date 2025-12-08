@@ -12,11 +12,15 @@ from flask import redirect, url_for
 import sqlite3
 import data
 
+# ----------------------------------SETUP---------------------------------- #
+
 data.create_user_data()
 DB_FILE="data.db"
 
 app = Flask(__name__)
 app.secret_key = "secret"
+
+# ----------------------------------PAGES---------------------------------- #
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -98,6 +102,30 @@ def register():
 def logout():
     session.pop('username', None) # remove username from session
     return redirect(url_for('login'))
+
+
+
+# ----------------------------------HELPERS---------------------------------- #
+
+def get_key():
+    try:
+        with open("key_nasa.txt") as f:
+            key = f.read().strip() # we read the txt file that only contains the key and strip any newline characters.
+            return key
+    except FileNotFoundError:
+        return "file not found"
+
+def get_data(url):
+    try:
+        response = urllib.request.urlopen(url) # This sends the HTTP GET request to Nasa API and urlopen returns a response obj.
+        data = json.loads(response.read().decode()) # This decodes the response, which is in bytes, into string and then loads the json string into a python dictionary: data.
+        return data
+    except URLError:
+        return "url error"
+
+
+
+# ----------------------------------MAIN---------------------------------- #
 
 if __name__=='__main__':
     app.debug = True
