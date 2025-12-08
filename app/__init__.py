@@ -36,8 +36,8 @@ def login():
         password = request.form.get('password').strip()
 
         # render login page if username or password box is empty
-        #if not username or not password:
-        #    return render_template('login.html', error="No username or password inputted")
+        if not username or not password:
+            return render_template('login.html', error="No username or password inputted")
 
         #search user table for password from a certain username
         db = sqlite3.connect(DB_FILE)
@@ -46,12 +46,12 @@ def login():
         db.close()
 
         #if there is no account then reload page
-        #if account is None:
+        #if not data.user_exists(username):
         #    return render_template("login.html", error="Username or password is incorrect")
 
         # check if password is correct, if not then reload page
-        #if account[0] != password:
-        #    return render_template("login.html", error="Username or password is incorrect")
+        if not data.auth(username, password):
+            return render_template("login.html", error="Username or password is incorrect")
 
         # if password is correct redirect home
         session["username"] = username
