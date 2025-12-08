@@ -107,14 +107,16 @@ def logout():
 
 # ----------------------------------HELPERS---------------------------------- #
 
-def get_key():
+# return the key in the specified file, or "file not found"
+def get_key(filename):
     try:
-        with open("key_nasa.txt") as f:
+        with open(filename) as f:
             key = f.read().strip() # we read the txt file that only contains the key and strip any newline characters.
             return key
     except FileNotFoundError:
         return "file not found"
 
+# return the data string from the api url, or "url error"
 def get_data(url):
     try:
         response = urllib.request.urlopen(url) # This sends the HTTP GET request to Nasa API and urlopen returns a response obj.
