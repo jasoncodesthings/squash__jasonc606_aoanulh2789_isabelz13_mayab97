@@ -104,7 +104,6 @@ def logout():
     return redirect(url_for('login'))
 
 
-
 # ----------------------------------HELPERS---------------------------------- #
 
 # return the key in the specified file, or "file not found"
