@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <!--<link rel="stylesheet" type="text/css" href="../static/style.css">-->
-    <title>Login</title>
+    <title>Register</title>
   </head>
   <body>
-    <h2>Enter username and password to login</h2>
+    <h2>Enter username and password to create a new account</h2>
     <form method="post">
       <label for="username">Username:</label>
       <br>
@@ -18,12 +18,12 @@
       <input type="password" name="password" id="password">
       <br>
       <br>
-      <input type="submit" value="Login">
+      <input type="submit" value="Register">
     </form>
     <!--{% if error %}
       <h3>{{ error }}</h3>
     {% endif %}-->
-    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
 
   </body>
 </html>
