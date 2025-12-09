@@ -128,6 +128,9 @@ def logout():
 
 # ----------------------------------HELPERS---------------------------------- #
 
+# turns out none of our APIs need keys!
+# not sure this works since I wasn't able to test it, but just in case we do need keys, here is my progress.
+'''
 # return the key in the specified file, or "file not found"
 def get_key(filename):
     try:
@@ -136,6 +139,7 @@ def get_key(filename):
             return key
     except FileNotFoundError:
         return file_err
+'''
 
 # return the data string from the api url, or "url error"
 def get_data(url):
@@ -145,8 +149,6 @@ def get_data(url):
         return data
     except urllib.error.URLError:
         return url_err
-
-
 
 # ----------------------------------MAIN---------------------------------- #
 
