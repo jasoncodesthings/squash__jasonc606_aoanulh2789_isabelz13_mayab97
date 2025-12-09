@@ -27,7 +27,8 @@ jasonC -- 2025-12-07 11:13
 
 jasonC == 2025-12-09 11:04
 - yesterday, i worked on getting login page and account database stuff working
-  - still work in progress
+- still work in progress
+
 AoanulH -- 2025-12-09 11:17
 - Worked on Trivia Page (generating the question (needs improvements))
 - Updated __init__.py to decode the json from the trivia api
