@@ -191,8 +191,3 @@ def modify_field(table, ID_fieldname, ID, field, new_val):
     db.commit()
     db.close()
 
-
-#=============================MAIN=SCRIPT=============================#
-
-# make table
-create_user_data()

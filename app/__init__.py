@@ -9,15 +9,23 @@ from flask import request
 from flask import session
 from flask import redirect, url_for
 import urllib.request
+import urllib.error
 import json
 import sqlite3
 import data
+
+# ----------------------------------SETUP---------------------------------- #
 
 data.create_user_data()
 DB_FILE="data.db"
 
 app = Flask(__name__)
 app.secret_key = "secret"
+
+file_err = "file not found error"
+url_err = "url error"
+
+# ----------------------------------PAGES---------------------------------- #
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -95,26 +103,52 @@ def register():
         return redirect(url_for("home"))
     return render_template("register.html")
 
+def get_trivia_question():
+
+    # this api doesn't need a key
+    url = f"https://opentdb.com/api.php?amount=1" # Endpoint URL
+    data = get_data(url)
+    
+    return data   # Returning the python dictionary for route, or "url error" if not found
+
+@app.route("/trivia")
+def trivia():
+    trivia_data = get_trivia_question()
+    
+    if (trivia_data == url_err):
+        return render_template("keyerror.html", API="opentdb", err=trivia_data)
+    
+    return render_template("trivia.html", trivia=trivia_data)  
+
 @app.route("/logout")
 def logout():
     session.pop('username', None) # remove username from session
     return redirect(url_for('login'))
 
-def get_trivia_question():
 
-    url = f"https://opentdb.com/api.php?amount=1" # Endpoint URL
+# ----------------------------------HELPERS---------------------------------- #
 
-    response = urllib.request.urlopen(url) # This sends the HTTP GET request to Nasa API and urlopen returns a response obj.
-    data = json.loads(response.read().decode()) # This decodes the response, which is in bytes, into string and then loads the json string into a python dictionary: data.
-    
-    print(data)
-    return data   # Returning the python dictionary for route.
+# return the key in the specified file, or "file not found"
+def get_key(filename):
+    try:
+        with open(filename) as f:
+            key = f.read().strip() # we read the txt file that only contains the key and strip any newline characters.
+            return key
+    except FileNotFoundError:
+        return file_err
 
-@app.route("/trivia")
-def main():
-    trivia_data = get_trivia_question()
-    print(data)
-    return render_template("trivia.html", trivia=trivia_data)  
+# return the data string from the api url, or "url error"
+def get_data(url):
+    try:
+        response = urllib.request.urlopen(url) # This sends the HTTP GET request to Nasa API and urlopen returns a response obj.
+        data = json.loads(response.read().decode()) # This decodes the response, which is in bytes, into string and then loads the json string into a python dictionary: data.
+        return data
+    except urllib.error.URLError:
+        return url_err
+
+
+
+# ----------------------------------MAIN---------------------------------- #
 
 if __name__=='__main__':
     app.debug = True
