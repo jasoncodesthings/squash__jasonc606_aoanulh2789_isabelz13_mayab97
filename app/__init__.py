@@ -8,7 +8,8 @@ from flask import render_template
 from flask import request
 from flask import session
 from flask import redirect, url_for
-
+import urllib.request
+import json
 import sqlite3
 import data
 
@@ -98,6 +99,22 @@ def register():
 def logout():
     session.pop('username', None) # remove username from session
     return redirect(url_for('login'))
+
+def get_trivia_question():
+
+    url = f"https://opentdb.com/api.php?amount=1" # Endpoint URL
+
+    response = urllib.request.urlopen(url) # This sends the HTTP GET request to Nasa API and urlopen returns a response obj.
+    data = json.loads(response.read().decode()) # This decodes the response, which is in bytes, into string and then loads the json string into a python dictionary: data.
+    
+    print(data)
+    return data   # Returning the python dictionary for route.
+
+@app.route("/trivia")
+def main():
+    trivia_data = get_trivia_question()
+    print(data)
+    return render_template("trivia.html", trivia=trivia_data)  
 
 if __name__=='__main__':
     app.debug = True
