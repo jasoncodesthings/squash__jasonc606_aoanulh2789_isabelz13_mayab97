@@ -32,3 +32,7 @@ jasonC == 2025-12-09 11:04
 AoanulH -- 2025-12-09 11:17
 - Worked on Trivia Page (generating the question (needs improvements))
 - Updated __init__.py to decode the json from the trivia api
+
+MayaB -- 2025-12-09 11:38
+- Fixed up my url error handling to actually work :) plain but it's something
+- Removed some unnecessary stuff from data.py (main script)
