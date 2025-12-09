@@ -39,16 +39,6 @@ def login():
         if not username or not password:
             return render_template('login.html', error="No username or password inputted")
 
-        #search user table for password from a certain username
-        db = sqlite3.connect(DB_FILE)
-        c = db.cursor()
-        account = c.execute("SELECT password FROM userdata WHERE username = ?", (username,)).fetchone()
-        db.close()
-
-        #if there is no account then reload page
-        #if not data.user_exists(username):
-        #    return render_template("login.html", error="Username or password is incorrect")
-
         # check if password is correct, if not then reload page
         if not data.auth(username, password):
             return render_template("login.html", error="Username or password is incorrect")
@@ -75,24 +65,29 @@ def register():
         password = request.form.get('password').strip()
 
         # reload page if no username or password was entered
-        #if not username or not password:
-        #    return render_template("register.html", error="No username or password inputted")
+        if not username or not password:
+            return render_template("register.html", error="No username or password inputted")
 
-        db = sqlite3.connect(DB_FILE)
-        c = db.cursor()
-        # check if username already exists and reload page if it does
-        #exists = c.execute("SELECT 1 FROM userdata WHERE name = ?", (username,)).fetchone()
-        #if exists:
-        #    db.close()
-        #    return render_template("register.html", error="Username already exists")
-
-        c.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username, password))
-        db.commit()
-        db.close()
-
-        session['username'] = username
-        return redirect(url_for("home"))
+        # puts user into database unless if there's an error
+        execute_register = data.register_user(username, password)
+        if execute_register == "success":
+            session['username'] = username
+            return redirect(url_for("home"))
+        else:
+            return render_template("register.html", error = execute_register)
     return render_template("register.html")
+
+@app.route("/jokes")
+def jokes():
+    return render_template("jokes.html")
+
+@app.route("/activities")
+def activities():
+    return render_template("activities.html")
+
+@app.route("/trivia")
+def trivia():
+    return render_template("trivia.html")
 
 @app.route("/logout")
 def logout():

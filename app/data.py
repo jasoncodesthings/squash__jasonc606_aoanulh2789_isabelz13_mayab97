@@ -116,10 +116,12 @@ def auth(username, password):
 def register_user(username, password):
 
     if user_exists(username):
-        raise ValueError("Username already exists")
+        #raise ValueError("Username already exists")
+        return "Username already exists"
 
-    if password == "":
-        raise ValueError("You must enter a non-empty password")
+    #if password == "":
+        #raise ValueError("You must enter a non-empty password")
+        #return "You must enter a non-empty password"
 
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
