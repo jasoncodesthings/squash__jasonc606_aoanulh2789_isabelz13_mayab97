@@ -6,6 +6,13 @@
     <title>Register</title>
   </head>
   <body>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('jokes') }}">Jokes</a>
+      <a href="{{ url_for('trivia') }}">Trivia</a>
+      <a href="{{ url_for('activities') }}">Activities</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
     <h2>AAAAAA</h2>
     <p>logged in as {{ username }}</p>
   </body>
