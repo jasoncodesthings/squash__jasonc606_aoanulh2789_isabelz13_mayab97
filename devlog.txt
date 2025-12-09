@@ -36,3 +36,6 @@ AoanulH -- 2025-12-09 11:17
 MayaB -- 2025-12-09 11:38
 - Fixed up my url error handling to actually work :) plain but it's something
 - Removed some unnecessary stuff from data.py (main script)
+
+AoanulH -- 2025-12-09 11:46
+- Finished displaying all trivia question info (answer choices, category, question, difficulty)
