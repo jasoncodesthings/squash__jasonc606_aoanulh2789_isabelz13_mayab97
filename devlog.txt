@@ -43,4 +43,3 @@ AoanulH -- 2025-12-09 11:46
 jasonC -- 2025-12-10 06:35
 - completed login/register page with errors and database stuff
 - added navbar
-- none of our apis need keys so we're good on those deliverables due today
