@@ -43,3 +43,6 @@ AoanulH -- 2025-12-09 11:46
 jasonC -- 2025-12-10 06:35
 - completed login/register page with errors and database stuff
 - added navbar
+
+AoanulH -- 2025-12-10 11:47
+- Added conditional statments to trivia.html (if its true/false questions display only two choices, vice versa)
