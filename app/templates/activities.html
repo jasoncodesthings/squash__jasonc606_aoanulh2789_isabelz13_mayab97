@@ -16,8 +16,9 @@
     <h2>activities</h2>
     <p>logged in as {{ username }}</p>
     {{ data }}<br><br> <!--temporary-->
-    category: {{ data['type'] }}
+    <p>category: {{ data['type'] }}</p>
     <h3>generated activity: {{ data['activity'] }}</h3>
+    <p>Price rating (where 0 is cheap): {{ data['price'] }}</p>
     <a href="{{ url_for('activities') }}">Generate new</a>
   </body>
 </html>
