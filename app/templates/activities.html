@@ -15,6 +15,9 @@
     </nav>
     <h2>activities</h2>
     <p>logged in as {{ username }}</p>
-    {{ data }}
+    {{ data }}<br><br> <!--temporary-->
+    category: {{ data['type'] }}
+    <h3>generated activity: {{ data['activity'] }}</h3>
+    <a href="{{ url_for('activities') }}">Generate new</a>
   </body>
 </html>
