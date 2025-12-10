@@ -107,9 +107,10 @@ def trivia():
 def jokes():
     return render_template("jokes.html")
 
-@app.route("/activities")
+@app.route("/activites")
 def activities():
-    return render_template("activities.html")
+    return render_template("activities.html", username=session['username'])
+
 @app.route("/logout")
 def logout():
     session.pop('username', None) # remove username from session
