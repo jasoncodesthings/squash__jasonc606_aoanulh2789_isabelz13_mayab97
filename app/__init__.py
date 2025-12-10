@@ -109,7 +109,14 @@ def jokes():
 
 @app.route("/activites")
 def activities():
-    return render_template("activities.html", username=session['username'])
+
+    url = "https://bored-api.appbrewery.com/random"
+
+    data = get_data(url)
+    if (data == url_err):
+        return render_template("keyerror.html", API="Bored API", err=data)
+
+    return render_template("activities.html", username=session['username'], data=data)
 
 @app.route("/logout")
 def logout():
