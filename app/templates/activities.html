@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!--<link rel="stylesheet" type="text/css" href="../static/style.css">-->
+    <title>Acitivies</title>
+  </head>
+  <body>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('jokes') }}">Jokes</a>
+      <a href="{{ url_for('trivia') }}">Trivia</a>
+      <a href="{{ url_for('activities') }}">You are here</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <h2>activities</h2>
+    <p>logged in as {{ username }}</p>
+    {{ data }}<br><br> <!--temporary-->
+    category: {{ data['type'] }}
+    <h3>generated activity: {{ data['activity'] }}</h3>
+    <a href="{{ url_for('activities') }}">Generate new</a>
+  </body>
+</html>

@@ -1,8 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <!--<link rel="stylesheet" type="text/css" href="../static/style.css">-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script type = "text/tailwindcss">
+      @theme {
+           --font-title: "roboto", sans-serif;
+           --font-mono: "in", inconsolata;
+           --color-clifford: #da373d;
+           --color-pizza: #0000FF;
+      }
+    </script>
+    </style>
     <title>Login</title>
   </head>
   <body>
@@ -10,19 +20,23 @@
     <form method="post">
       <label for="username">Username:</label>
       <br>
+      <div class = "border-2 border-indigio-600"> 
       <input type="text" name="username" id="username">
+      </div>
       <br>
       <br>
       <label for="password">Password:</label>
       <br>
+      <div class = "border-2 border-indigio-600"> 
       <input type="password" name="password" id="password">
+      </div>
       <br>
       <br>
       <input type="submit" value="Login">
     </form>
-    <!--{% if error %}
+    {% if error %}
       <h3>{{ error }}</h3>
-    {% endif %}-->
+    {% endif %}
     <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
 
   </body>

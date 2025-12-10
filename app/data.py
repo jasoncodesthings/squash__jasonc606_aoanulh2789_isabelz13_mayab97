@@ -30,7 +30,7 @@ def create_user_data():
 
     db.commit()
     db.close()
-    
+
 
 
 
@@ -92,7 +92,8 @@ def auth(username, password):
         db.commit()
         db.close()
 
-        raise ValueError("Username does not exist")
+        #raise ValueError("Username does not exist")
+        return False
 
     # use ? for unsafe/user provided variables
     passpointer = c.execute('SELECT password FROM userdata WHERE username = ?', (username,))
@@ -102,10 +103,11 @@ def auth(username, password):
     db.close()
 
     password = password.encode('utf-8')
-    
+
     # hash password here
     if real_pass != str(hashlib.sha256(password).hexdigest()):
-        raise ValueError("Incorrect password")
+        #raise ValueError("Incorrect password")
+        return False
 
     return True
 
@@ -114,10 +116,12 @@ def auth(username, password):
 def register_user(username, password):
 
     if user_exists(username):
-        raise ValueError("Username already exists")
+        #raise ValueError("Username already exists")
+        return "Username already exists"
 
-    if password == "":
-        raise ValueError("You must enter a non-empty password")
+    #if password == "":
+        #raise ValueError("You must enter a non-empty password")
+        #return "You must enter a non-empty password"
 
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -154,7 +158,7 @@ def get_field_list(table, ID_fieldname, ID, field):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    
+
     # use ? for unsafe/user provided variables
     data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = ?', (ID,)).fetchall()
 
@@ -168,7 +172,7 @@ def get_field_list(table, ID_fieldname, ID, field):
 def clean_list(raw_output):
 
     clean_output = []
-    
+
     for lst in raw_output:
         for item in lst:
             if str(item) != 'None':
@@ -178,19 +182,14 @@ def clean_list(raw_output):
 
 
 def modify_field(table, ID_fieldname, ID, field, new_val):
-    
+
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    
+
     # use ? for unsafe/user provided variables
     c.execute(f'UPDATE {table} SET {field} = ? WHERE {ID_fieldname} = ?', (new_val, ID,))
 
     db.commit()
     db.close()
 
-
-#=============================MAIN=SCRIPT=============================#
-
-# make table
-create_user_data()
