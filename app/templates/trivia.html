@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 
+
 <html lang="en">
 
 		<head>
@@ -13,17 +14,37 @@
 
 				<h3>Trivia Question:</h3>
 				<p> {{trivia["results"][0]["question"] }} </p>
-
+			
 				<p>Difficulty: {{trivia["results"][0]["difficulty"]}} </p>
 
 				<p>Category: {{trivia["results"][0]["category"]}}</p>
 
                 <p>Answer Choices:</p>
-                <button type="submit">{{trivia["results"][0]["correct_answer"]}}</button>
-                <button type="submit">{{trivia["results"][0]["incorrect_answers"][0]}}</button>
-                <button type="submit">{{trivia["results"][0]["incorrect_answers"][1]}}</button>
-                <button type="submit">{{trivia["results"][0]["incorrect_answers"][2]}}</button>
+                 
+                <script>
+                    var trivia = {{ trivia|safe }};
+
+                    var triviatype = trivia["results"][0]["type"];
+
+                    if (triviatype == "multiple") {
+
+                        document.write(
+                            '<button type="submit">' + trivia["results"][0]["correct_answer"] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][0] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][1] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][2] + '</button>'
+                        );
+                    } else {
+
+                        document.write(
+                            '<button type="submit">' + trivia["results"][0]["correct_answer"] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][0] + '</button>'
+                        );
+                    }
+                </script>
+
 		</body>
+		
 
 <html lang="en" dir="ltr">
   <head>
@@ -42,4 +63,5 @@
     <h2>trivia</h2>
     <p>logged in as {{ username }}</p>
   </body>
+
 </html>
