@@ -55,7 +55,7 @@ def home():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    return render_template('home.html', username=session['username'])
+    return render_template('home.html', username=session['username'], points=data.get_score(session['username']))
 
 
 @app.route("/register", methods=['GET', 'POST'])
