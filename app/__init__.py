@@ -101,7 +101,7 @@ def trivia():
     if (trivia_data == url_err):
         return render_template("keyerror.html", API="opentdb", err=trivia_data)
 
-    return render_template("trivia.html", trivia=trivia_data)
+    return render_template("trivia.html", username=session['username'], trivia=trivia_data)
 
 @app.route("/jokes")
 def jokes():
