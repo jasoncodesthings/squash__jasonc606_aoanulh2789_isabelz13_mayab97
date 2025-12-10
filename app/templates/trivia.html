@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 
+
 <html lang="en">
 
 		<head>
@@ -11,8 +12,56 @@
 		<body>
 				<hr>
 
-				<h3>Trivia Question</h3>
-				<p> {{ trivia["results"][0]["question"] }} </p>				
+				<h3>Trivia Question:</h3>
+				<p> {{trivia["results"][0]["question"] }} </p>
+			
+				<p>Difficulty: {{trivia["results"][0]["difficulty"]}} </p>
+
+				<p>Category: {{trivia["results"][0]["category"]}}</p>
+
+                <p>Answer Choices:</p>
+                 
+                <script>
+                    var trivia = {{ trivia|safe }};
+
+                    var triviatype = trivia["results"][0]["type"];
+
+                    if (triviatype == "multiple") {
+
+                        document.write(
+                            '<button type="submit">' + trivia["results"][0]["correct_answer"] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][0] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][1] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][2] + '</button>'
+                        );
+                    } else {
+
+                        document.write(
+                            '<button type="submit">' + trivia["results"][0]["correct_answer"] + '</button>' +
+                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][0] + '</button>'
+                        );
+                    }
+                </script>
+
 		</body>
 		
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!--<link rel="stylesheet" type="text/css" href="../static/style.css">-->
+    <title>Register</title>
+  </head>
+  <body>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('jokes') }}">Jokes</a>
+      <a href="{{ url_for('trivia') }}">Trivia</a>
+      <a href="{{ url_for('activities') }}">Activities</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <h2>trivia</h2>
+    <p>logged in as {{ username }}</p>
+  </body>
+
 </html>
