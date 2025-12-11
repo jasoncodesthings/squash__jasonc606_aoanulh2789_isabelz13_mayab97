@@ -17,7 +17,7 @@
     <p>logged in as {{ username }}</p>
     {% if joke %}
         {% if joke.type == "single" %}
-             <p>{{joke.joke}}</p> //separates the setup for a joke
+             <p>{{joke.joke}}</p> <!--separates the setup for a joke-->
         {% elif joke.type == "twopart" %}
              <p>{{joke.setup}}</p>
              <p>{{joke.delivery}}</p>
@@ -26,6 +26,6 @@
         {% endif %}
     {% endif %}
     <br>
-    <a href = "{{url_for('jokes')}}"> Get Another Joke </a> //creates a link to regenerate jokes
+    <a href = "{{url_for('jokes')}}"> Get Another Joke </a> <!--creates a link to regenerate jokes-->
   </body>
 </html>
