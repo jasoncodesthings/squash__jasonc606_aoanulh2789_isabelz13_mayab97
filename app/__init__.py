@@ -94,7 +94,7 @@ def get_trivia_question():
 
     return data   # Returning the python dictionary for route, or "url error" if not found
 
-@app.route("/trivia")
+@app.route("/trivia", methods=['GET', 'POST'])
 def trivia():
     trivia_data = get_trivia_question()
 
@@ -103,9 +103,17 @@ def trivia():
 
     return render_template("trivia.html", username=session['username'], trivia=trivia_data)
 
-@app.route("/jokes")
-def jokes():
-    return render_template("jokes.html")
+def get_joke():
+    url = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,political,racist,sexist"
+    data = get_data (url)
+    return data   
+        
+@app.route("/jokes") 
+def jokes(): 
+    joke_db = get_joke()
+    if (joke_db == url_err):
+        return render_template ("keyerror.html", API = "Jokes API", err = joke_data)
+    return render_template("jokes.html", username = session['username'], joke = joke_db)
 
 @app.route("/activites")
 def activities():

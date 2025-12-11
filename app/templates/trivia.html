@@ -1,50 +1,68 @@
 <!DOCTYPE html>
 
-
-
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Squash's Trivia Page</title>
+  </head>
 
-		<head>
-				<meta charset="UTF-8">
-				<title>Squash's Trivia Page</title>
-		</head>
+  <body>
+    <hr>
 
-		<body>
-				<hr>
+    <h3>Trivia Question:</h3>
+    <p>{{ trivia["results"][0]["question"] }}</p>
 
-				<h3>Trivia Question:</h3>
-				<p> {{trivia["results"][0]["question"] }} </p>
-			
-				<p>Difficulty: {{trivia["results"][0]["difficulty"]}} </p>
+    <p>Difficulty: {{ trivia["results"][0]["difficulty"] }}</p>
 
-				<p>Category: {{trivia["results"][0]["category"]}}</p>
+    <p>Category: {{ trivia["results"][0]["category"] }}</p>
 
-                <p>Answer Choices:</p>
-                 
-                <script>
-                    var trivia = {{ trivia|safe }};
+    <p>Answer Choices:</p>
+    <div id="answers"></div>
+    <div id="message"></div>
 
-                    var triviatype = trivia["results"][0]["type"];
+    <script>
+      var triviaData = {{ trivia | tojson }};
+      var q = triviaData.results[0];
 
-                    if (triviatype == "multiple") {
+      var correct = q.correct_answer;
+      var answers = q.incorrect_answers.slice();
+      answers.push(correct);
 
-                        document.write(
-                            '<button type="submit">' + trivia["results"][0]["correct_answer"] + '</button>' +
-                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][0] + '</button>' +
-                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][1] + '</button>' +
-                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][2] + '</button>'
-                        );
-                    } else {
+      for (var i = answers.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = answers[i];
+        answers[i] = answers[j];
+        answers[j] = tmp;
+      }
 
-                        document.write(
-                            '<button type="submit">' + trivia["results"][0]["correct_answer"] + '</button>' +
-                            '<button type="submit">' + trivia["results"][0]["incorrect_answers"][0] + '</button>'
-                        );
-                    }
-                </script>
+      var answersDiv = document.getElementById("answers");
 
-		</body>
-		
+      answers.forEach(function(ans) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = ans;
+
+        btn.onclick = function() {
+          if (ans === correct) {
+            document.getElementById("message").innerHTML = "<p2>Correct</p2>";
+          } else {
+            document.getElementById("message").innerHTML = "<p2>Incorrect. Correct answer:</p2>" + " " + correct;
+          }
+        };
+
+        answersDiv.appendChild(btn);
+        answersDiv.appendChild(document.createTextNode(" "));
+      });
+    </script>
+  </body>
+</html>
+
+
+<form action="/trivia" method="post">
+    <button name="nextbtn" type="submit">Next</button>
+</form>
+
+
 
 <html lang="en" dir="ltr">
   <head>
