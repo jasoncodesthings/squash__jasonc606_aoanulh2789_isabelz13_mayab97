@@ -50,3 +50,7 @@ AoanulH -- 2025-12-10 11:47
 AoanulH -- 2025-12-10 9:44
 - Optimization and formatting fixes
 - Worked on javscript in trivia.html (shuffling of answers via a simple for loop using math.random, and utilizing alert() to alert users if they're answer is right (temp))
+
+isabelZ -- 2025-12-11 01:09 
+- Worked on including the JokesAPI question database 
+- Edited the HTML file accordingly (separated the two-part and single line jokes) 
