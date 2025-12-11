@@ -125,4 +125,8 @@ ehthumbs.db
 
 # Filenames with special characters
 **/*[\\/\:;*?!'"<>|$º•¶§∞¢£]*
+
+# Databases
+*.db
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
