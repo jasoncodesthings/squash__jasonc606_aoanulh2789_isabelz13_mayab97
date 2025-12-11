@@ -1,29 +1,60 @@
 <!DOCTYPE html>
 
-
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Squash's Trivia Page</title>
+  </head>
 
-		<head>
-				<meta charset="UTF-8">
-				<title>Squash's Trivia Page</title>
-		</head>
+  <body>
+    <hr>
 
-		<body>
-				<hr>
+    <h3>Trivia Question:</h3>
+    <p>{{ trivia["results"][0]["question"] }}</p>
 
-				<h3>Trivia Question:</h3>
-				<p> {{trivia["results"][0]["question"] }} </p>
+    <p>Difficulty: {{ trivia["results"][0]["difficulty"] }}</p>
 
-				<p>Difficulty: {{trivia["results"][0]["difficulty"]}} </p>
+    <p>Category: {{ trivia["results"][0]["category"] }}</p>
 
-				<p>Category: {{trivia["results"][0]["category"]}}</p>
+    <p>Answer Choices:</p>
+    <div id="answers"></div>
 
-                <p>Answer Choices:</p>
-                <button type="submit">{{trivia["results"][0]["correct_answer"]}}</button>
-                <button type="submit">{{trivia["results"][0]["incorrect_answers"][0]}}</button>
-                <button type="submit">{{trivia["results"][0]["incorrect_answers"][1]}}</button>
-                <button type="submit">{{trivia["results"][0]["incorrect_answers"][2]}}</button>
-		</body>
+    <script>
+      var triviaData = {{ trivia | tojson }};
+      var q = triviaData.results[0];
+
+      var correct = q.correct_answer;
+      var answers = q.incorrect_answers.slice();
+      answers.push(correct);
+
+      for (var i = answers.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = answers[i];
+        answers[i] = answers[j];
+        answers[j] = tmp;
+      }
+
+      var answersDiv = document.getElementById("answers");
+
+      answers.forEach(function(ans) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = ans;
+
+        btn.onclick = function() {
+          if (ans === correct) {
+            alert("Correct!");
+          } else {
+            alert("Incorrect. Correct answer: " + correct);
+          }
+        };
+
+        answersDiv.appendChild(btn);
+        answersDiv.appendChild(document.createTextNode(" "));
+      });
+    </script>
+  </body>
+</html>
 
 <html lang="en" dir="ltr">
   <head>
@@ -42,4 +73,5 @@
     <h2>trivia</h2>
     <p>logged in as {{ username }}</p>
   </body>
+
 </html>

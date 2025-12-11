@@ -15,5 +15,17 @@
     </nav>
     <h2>jokes</h2>
     <p>logged in as {{ username }}</p>
+    {% if joke %}
+        {% if joke.type == "single" %}
+             <p>{{joke.joke}}</p> <!--separates the setup for a joke-->
+        {% elif joke.type == "twopart" %}
+             <p>{{joke.setup}}</p>
+             <p>{{joke.delivery}}</p>
+        {% else %}
+             <p> Unexpected joke format</p>
+        {% endif %}
+    {% endif %}
+    <br>
+    <a href = "{{url_for('jokes')}}"> Get Another Joke </a> <!--creates a link to regenerate jokes-->
   </body>
 </html>

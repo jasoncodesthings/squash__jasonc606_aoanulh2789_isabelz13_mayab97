@@ -43,3 +43,17 @@ AoanulH -- 2025-12-09 11:46
 jasonC -- 2025-12-10 06:35
 - completed login/register page with errors and database stuff
 - added navbar
+
+AoanulH -- 2025-12-10 11:47
+- Added conditional statments to trivia.html (if its true/false questions display only two choices, vice versa)
+
+AoanulH -- 2025-12-10 9:44
+- Optimization and formatting fixes
+- Worked on javscript in trivia.html (shuffling of answers via a simple for loop using math.random, and utilizing alert() to alert users if they're answer is right (temp))
+
+isabelZ -- 2025-12-11 01:09
+- Worked on including the JokesAPI question database
+- Edited the HTML file accordingly (separated the two-part and single line jokes)
+
+jasonC -- 2025-12-10 11:07
+- worked on css stuff and kinda struggled
