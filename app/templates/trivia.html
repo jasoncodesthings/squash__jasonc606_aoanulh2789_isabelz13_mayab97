@@ -26,6 +26,10 @@
 
       var correct = q.correct_answer;
       var answers = q.incorrect_answers.slice();
+    function currentscore() {
+          var currScore = 0;
+          document.getElementById("currScore").innerHTML = currScore;
+        }
       answers.push(correct);
 
       for (var i = answers.length - 1; i > 0; i--) {
@@ -45,6 +49,7 @@
         btn.onclick = function() {
           if (ans === correct) {
             document.getElementById("message").innerHTML = "<p2>Correct</p2>";
+            currScore++
           } else {
             document.getElementById("message").innerHTML = "<p2>Incorrect. Correct answer:</p2>" + " " + correct;
           }
@@ -54,6 +59,13 @@
         answersDiv.appendChild(document.createTextNode(" "));
       });
     </script>
+
+
+    <body onload="currentscore()">
+
+      <p>Current Score:  <span id="currScore"></span></p1>
+
+
   </body>
 </html>
 
