@@ -18,6 +18,7 @@
 
     <p>Answer Choices:</p>
     <div id="answers"></div>
+    <div id="message"></div>
 
     <script>
       var triviaData = {{ trivia | tojson }};
@@ -43,9 +44,9 @@
 
         btn.onclick = function() {
           if (ans === correct) {
-            alert("Correct!");
+            document.getElementById("message").innerHTML = "<p2>Correct</p2>";
           } else {
-            alert("Incorrect. Correct answer: " + correct);
+            document.getElementById("message").innerHTML = "<p2>Incorrect. Correct answer:</p2>" + " " + correct;
           }
         };
 
@@ -55,6 +56,13 @@
     </script>
   </body>
 </html>
+
+
+<form action="/trivia" method="post">
+    <button name="nextbtn" type="submit">Next</button>
+</form>
+
+
 
 <html lang="en" dir="ltr">
   <head>

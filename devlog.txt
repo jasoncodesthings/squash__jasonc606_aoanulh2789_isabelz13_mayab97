@@ -55,5 +55,8 @@ isabelZ -- 2025-12-11 01:09
 - Worked on including the JokesAPI question database
 - Edited the HTML file accordingly (separated the two-part and single line jokes)
 
-jasonC -- 2025-12-10 11:07
+jasonC -- 2025-12-11 11:07
 - worked on css stuff and kinda struggled
+
+jasonC -- 2025-12-12 6:37
+- finally got css working, experimented with different styles
