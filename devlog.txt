@@ -60,3 +60,8 @@ jasonC -- 2025-12-11 11:07
 
 jasonC -- 2025-12-12 6:37
 - finally got css working, experimented with different styles
+
+AoanulH -- 2025-12-12 11:45
+- Changed alert() to innerHTML to display if you're incorrect or correct
+- Added a next button that utilizes post to retrieve the next question
+- Started current score (doesn't work,but will soon) 
