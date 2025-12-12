@@ -94,7 +94,7 @@ def get_trivia_question():
 
     return data   # Returning the python dictionary for route, or "url error" if not found
 
-@app.route("/trivia")
+@app.route("/trivia", methods=['GET', 'POST'])
 def trivia():
     trivia_data = get_trivia_question()
 
