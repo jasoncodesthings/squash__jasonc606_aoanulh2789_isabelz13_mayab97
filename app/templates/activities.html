@@ -13,12 +13,14 @@
       <a href="{{ url_for('activities') }}">You are here</a>
       <a href="{{ url_for('logout') }}">Logout</a>
     </nav>
-    <h2>activities</h2>
-    <p>logged in as {{ username }}</p>
+    <h3>Generate An Activity...</h3>
     {{ data }}<br><br> <!--temporary-->
     <p>category: {{ data['type'] }}</p>
-    <h3>generated activity: {{ data['activity'] }}</h3>
-    <p>Price rating (where 0 is cheap): {{ data['price'] }}</p>
+    <h2>{{ data['activity'] }}</h2>
+    <p>Accessibility: {{ data['accessibility'] }}</p>
+    <p>Duration: {{ data['duration'] }}</p>
+    <p>Number of participants: {{ data['participants'] }}</p>
+    <p>Price: {{ data['price'] }}</p>
     <a href="{{ url_for('activities') }}">Generate new</a>
   </body>
 </html>
