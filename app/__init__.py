@@ -13,6 +13,13 @@ import urllib.error
 import json
 import sqlite3
 import data
+import time
+
+OPENTDB_COOLDOWN = 5.1
+_last_opentdb_call = 0.0
+
+TRIVIA_POOL = {"easy": [], "medium": [], "hard": []}
+
 
 # ----------------------------------SETUP---------------------------------- #
 
@@ -86,23 +93,64 @@ def register():
             return render_template("register.html", error = execute_register)
     return render_template("register.html")
 
-def get_trivia_question():
+def opentdb_get(url):
+    global _last_opentdb_call
+    now = time.monotonic()
+    wait = OPENTDB_COOLDOWN - (now - _last_opentdb_call)
+    if wait > 0:
+        time.sleep(wait)
+    _last_opentdb_call = time.monotonic()
+    return get_data(url)
 
-    # this api doesn't need a key
-    url = f"https://opentdb.com/api.php?amount=1" # Endpoint URL
-    data = get_data(url)
 
-    return data   # Returning the python dictionary for route, or "url error" if not found
+def refill_pool(difficulty, amount=10):
+    url = f"https://opentdb.com/api.php?amount={amount}&difficulty={difficulty}"
+    for _ in range(3):
+        data = opentdb_get(url)
+        if data == url_err:
+            continue
+        if data.get("response_code") == 5:
+            time.sleep(OPENTDB_COOLDOWN)
+            continue
+        if data.get("response_code") == 0 and data.get("results"):
+            TRIVIA_POOL[difficulty].extend(data["results"])
+            return True
+    return False
 
-@app.route("/trivia", methods=['GET', 'POST'])
+
+def get_trivia_question(difficulty=None):
+    if difficulty not in ["easy", "medium", "hard"]:
+        difficulty = "easy"
+
+    if not TRIVIA_POOL[difficulty]:
+        ok = refill_pool(difficulty, amount=10)
+        if not ok:
+            return url_err
+
+    q = TRIVIA_POOL[difficulty].pop(0)
+    return {"response_code": 0, "results": [q]}
+
+@app.route("/trivia", methods=["GET", "POST"])
 def trivia():
-    trivia_data = get_trivia_question()
+    if request.method == "GET":
+        return render_template("trivia.html", username=session["username"], stage="choose")
 
-    if (trivia_data == url_err):
+    chosen = request.form.get("difficulty") or request.form.get("current_difficulty")
+    if chosen not in ["easy", "medium", "hard"]:
+        chosen = "easy"
+
+    trivia_data = get_trivia_question(chosen)
+
+    if trivia_data == url_err:
         return render_template("keyerror.html", API="opentdb", err=trivia_data)
 
-    return render_template("trivia.html", username=session['username'], trivia=trivia_data)
-
+    return render_template(
+        "trivia.html",
+        username=session["username"],
+        trivia=trivia_data,
+        stage="question",
+        chosen_difficulty=chosen
+    )
 def get_joke():
     url = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,political,racist,sexist"
     data = get_data (url)
