@@ -18,33 +18,33 @@
 
   </head>
 
-  <body class = "bg-linear-to-r from-fuchsia-400 to-orange-400">
-    <nav class = "flex items-center bg-gray-800 p-4 align-items: center">
-      <div class = "w-32 flex-auto"></div>
+  <body class = "bg-linear-to-r from-fuchsia-300 to-orange-300">
+    <nav class = "flex items-center bg-gray-800 p-2 align-items: center">
+      <div class = "w-50 flex-auto"></div>
 
       <div class = "flex flex-auto justify-center">
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
+      <button class = "bg-black text-white border-1 border-indigio-600 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('home') }}">Home</a>
       </button>
 
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
+      <button class = "bg-black text-white border-1 border-indigio-600 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('jokes') }}">Jokes</a>
       </button>
 
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
+      <button class = "bg-black text-white border-1 border-indigio-600 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('trivia') }}">Trivia</a>
       </button>
 
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
+      <button class = "bg-black text-white border-1 border-indigio-600 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('activities') }}">Activities</a>
       </button>
 
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
+      <button class = "bg-black text-white border-1 border-indigio-600 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('logout') }}">Logout</a>
       </button>
       </div>
 
-      <div class = "w-32 flex-auto text-white text-right">
+      <div class = "w-50 flex-auto text-white text-right">
       <p>{{ username }}</p>
       </div>
     </nav>

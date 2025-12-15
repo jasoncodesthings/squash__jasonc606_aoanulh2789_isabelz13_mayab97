@@ -18,7 +18,7 @@
 
   </head>
 
-  <body class = "bg-linear-to-r from-fuchsia-400 to-orange-400">
+  <body class = "bg-linear-to-r from-fuchsia-300 to-orange-300">
     <h2 class = "text-center text-[100px]">Enter username and password to login</h2>
     <br>
     <form method="post">
@@ -40,7 +40,7 @@
 
       <br>
       <br>
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">Login</button>
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white rounded-full">Login</button>
     </form>
 
     <br>
@@ -48,7 +48,7 @@
       <h3>{{ error }}</h3>
     {% endif %}
     <p>Don't have an account?
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white rounded-full">
       <a href="{{ url_for('register') }}">Register here</a>
       </button>
     </p>
