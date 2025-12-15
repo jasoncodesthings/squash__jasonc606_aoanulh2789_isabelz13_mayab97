@@ -64,11 +64,16 @@ jasonC -- 2025-12-12 6:37
 AoanulH -- 2025-12-12 11:45
 - Changed alert() to innerHTML to display if you're incorrect or correct
 - Added a next button that utilizes post to retrieve the next question
-- Started current score (doesn't work,but will soon) 
+- Started current score (doesn't work,but will soon)
 
 AoanulH -- 2025-12-14 5:03
 - replaced java script conditionals to jinja2 conditionals because it is much easier
 - Added difficulty section (easy, medium, hard)
 - Made it so once user answers they can't click any other answer choices and must move on or refresh the page (for a different question)
 - Improved the backend  (__init__.py) for error handling. API has a 5 second rate limit, so I added a cooldown + generating batches of questions instead  of 1 (might need to fix something with refreshing the page).
-- Fixed score, but still haven't connected it to the data. 
+- Fixed score, but still haven't connected it to the data.
+
+jasonC -- 2025-12-14 23:04
+- created first navbar on home page
+ - haven't polished it yet so i'm not pasting it on the other pages yet
+ - if the username is >55 characters long, it will extend the webpage to the right and it looks ugly
