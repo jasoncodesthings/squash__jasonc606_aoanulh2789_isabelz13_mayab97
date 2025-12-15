@@ -9,7 +9,7 @@
       @theme {
            --font-title: "roboto", sans-serif;
            --font-mono: "in", inconsolata;
-           --color-clifford: #da373d;
+           --color-pastel-blue: #d4f5ff;
            --color-pizza: #0000FF;
       }
     </style>
@@ -18,15 +18,15 @@
 
   </head>
 
-  <body class = "bg-green-100">
-    <h2 class = "text-center text-[70px]">Enter username and password to login</h2>
+  <body class = "bg-linear-to-r from-fuchsia-400 to-orange-400">
+    <h2 class = "text-center text-[100px]">Enter username and password to login</h2>
     <br>
     <form method="post">
       <label for="username">Username:</label>
       <br>
 
       <div>
-      <input type="text" name="username" id="username" class = "bg-blue-100 border-1 border-indigio-600">
+      <input type="text" name="username" id="username" class = "bg-pastel-blue border-1 border-indigio-600">
       </div>
 
       <br>
@@ -35,12 +35,12 @@
       <br>
 
       <div>
-      <input type="password" name="password" id="password" class = "bg-blue-100 border-1 border-indigio-600">
+      <input type="password" name="password" id="password" class = "bg-pastel-blue border-1 border-indigio-600">
       </div>
 
       <br>
       <br>
-      <button class = "bg-blue-100 border-1 border-indigio-600 hover:bg-white">Login</button>
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">Login</button>
     </form>
 
     <br>
@@ -48,7 +48,7 @@
       <h3>{{ error }}</h3>
     {% endif %}
     <p>Don't have an account?
-      <button class = "bg-blue-100 border-1 border-indigio-600 hover:bg-white">
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
       <a href="{{ url_for('register') }}">Register here</a>
       </button>
     </p>

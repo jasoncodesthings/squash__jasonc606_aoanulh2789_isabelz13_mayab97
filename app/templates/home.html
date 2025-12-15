@@ -1,29 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style type = "text/tailwindcss">
-    @theme {
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type = "text/tailwindcss">
+      @theme {
          --font-title: "roboto", sans-serif;
          --font-mono: "in", inconsolata;
-         --color-clifford: #da373d;
+         --color-pastel-blue: #d4f5ff;
          --color-pizza: #0000FF;
-    }
-  </style>
+       }
+    </style>
 
-  <title>Cure My Boredom</title>
+    <title>Cure My Boredom</title>
 
-</head>
-  <body>
-    <nav>
+  </head>
+
+  <body class = "bg-linear-to-r from-fuchsia-400 to-orange-400">
+    <nav class = "flex items-center bg-gray-800 p-4 align-items: center">
+      <div class = "w-32 flex-auto"></div>
+
+      <div class = "flex flex-auto justify-center">
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
       <a href="{{ url_for('home') }}">Home</a>
+      </button>
+
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
       <a href="{{ url_for('jokes') }}">Jokes</a>
+      </button>
+
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
       <a href="{{ url_for('trivia') }}">Trivia</a>
+      </button>
+
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
       <a href="{{ url_for('activities') }}">Activities</a>
+      </button>
+
+      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
       <a href="{{ url_for('logout') }}">Logout</a>
+      </button>
+      </div>
+
+      <div class = "w-32 flex-auto text-white text-right">
+      <p>{{ username }}</p>
+      </div>
     </nav>
+
     <h2>Welcome to Cure My Boredom!</h2>
     <p>Logged in as {{ username }}</p>
     <p>Trivia points: {{ points }}</p>

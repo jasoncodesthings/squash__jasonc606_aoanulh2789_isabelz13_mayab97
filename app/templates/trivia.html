@@ -1,75 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Squash's Trivia Page</title>
   </head>
 
-  <body>
-    <hr>
-
-    <h3>Trivia Question:</h3>
-    <p>{{ trivia["results"][0]["question"] }}</p>
-
-    <p>Difficulty: {{ trivia["results"][0]["difficulty"] }}</p>
-
-    <p>Category: {{ trivia["results"][0]["category"] }}</p>
-
-    <p>Answer Choices:</p>
-    <div id="answers"></div>
-    <div id="message"></div>
-
-    <script>
-      var triviaData = {{ trivia | tojson }};
-      var q = triviaData.results[0];
-
-      var correct = q.correct_answer;
-      var answers = q.incorrect_answers.slice();
-      answers.push(correct);
-
-      for (var i = answers.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var tmp = answers[i];
-        answers[i] = answers[j];
-        answers[j] = tmp;
-      }
-
-      var answersDiv = document.getElementById("answers");
-
-      answers.forEach(function(ans) {
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = ans;
-
-        btn.onclick = function() {
-          if (ans === correct) {
-            document.getElementById("message").innerHTML = "<p2>Correct</p2>";
-          } else {
-            document.getElementById("message").innerHTML = "<p2>Incorrect. Correct answer:</p2>" + " " + correct;
-          }
-        };
-
-        answersDiv.appendChild(btn);
-        answersDiv.appendChild(document.createTextNode(" "));
-      });
-    </script>
-  </body>
-</html>
-
-
-<form action="/trivia" method="post">
-    <button name="nextbtn" type="submit">Next</button>
-</form>
-
-
-
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <!--<link rel="stylesheet" type="text/css" href="../static/style.css">-->
-    <title>Register</title>
-  </head>
   <body>
     <nav>
       <a href="{{ url_for('home') }}">Home</a>
@@ -78,8 +13,102 @@
       <a href="{{ url_for('activities') }}">Activities</a>
       <a href="{{ url_for('logout') }}">Logout</a>
     </nav>
+
     <h2>trivia</h2>
     <p>logged in as {{ username }}</p>
-  </body>
+    <hr>
 
+    {% if stage == "choose" %}
+      <h3>Choose Difficulty</h3>
+
+      <form action="{{ url_for('trivia') }}" method="post">
+        <button type="submit" name="difficulty" value="easy">Easy</button>
+        <button type="submit" name="difficulty" value="medium">Medium</button>
+        <button type="submit" name="difficulty" value="hard">Hard</button>
+      </form>
+
+    {% else %}
+      <h3>Trivia Question:</h3>
+      <p id="question"></p>
+
+      <p>Difficulty: <span id="difficulty"></span></p>
+      <p>Category: <span id="category"></span></p>
+
+      <p>Answer Choices:</p>
+      <div id="answers"></div>
+      <div id="message"></div>
+
+      <p>Current Score: <span id="currScore">0</span></p>
+
+      <form action="{{ url_for('trivia') }}" method="post">
+        <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
+        <button name="nextbtn" type="submit">Next</button>
+      </form>
+
+      <script>
+        var triviaData = {{ trivia | tojson }};
+        var q = triviaData.results[0];
+
+        function decodeHtml(s) {
+          var t = document.createElement("textarea");
+          t.innerHTML = s;
+          return t.value;
+        }
+
+        document.getElementById("question").textContent = decodeHtml(q.question);
+        document.getElementById("difficulty").textContent = decodeHtml(q.difficulty);
+        document.getElementById("category").textContent = decodeHtml(q.category);
+
+        var correctRaw = q.correct_answer;
+        var answersRaw = q.incorrect_answers.slice();
+        answersRaw.push(correctRaw);
+
+        for (var i = answersRaw.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = answersRaw[i];
+          answersRaw[i] = answersRaw[j];
+          answersRaw[j] = tmp;
+        }
+
+        var currScore = 0;
+        function updateScore() {
+          document.getElementById("currScore").textContent = currScore;
+        }
+        updateScore();
+
+        var answered = false;
+        var answersDiv = document.getElementById("answers");
+
+        function disableAll() {
+          var btns = answersDiv.querySelectorAll("button");
+          btns.forEach(function(b) { b.disabled = true; });
+        }
+
+        answersRaw.forEach(function(ansRaw) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = decodeHtml(ansRaw);
+
+          btn.onclick = function() {
+            if (answered) return;
+            answered = true;
+
+            if (ansRaw === correctRaw) {
+              document.getElementById("message").textContent = "Correct";
+              currScore += 1;
+              updateScore();
+            } else {
+              document.getElementById("message").textContent =
+                "Incorrect. Correct answer: " + decodeHtml(correctRaw);
+            }
+
+            disableAll();
+          };
+
+          answersDiv.appendChild(btn);
+          answersDiv.appendChild(document.createTextNode(" "));
+        });
+      </script>
+    {% endif %}
+  </body>
 </html>
