@@ -152,7 +152,7 @@ def trivia():
         chosen_difficulty=chosen
     )
 def get_joke():
-    url = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,political,racist,sexist"
+    url = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit"
     data = get_data (url)
     return data   
         
