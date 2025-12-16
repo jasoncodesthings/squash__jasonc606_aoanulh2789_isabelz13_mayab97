@@ -17,10 +17,10 @@ import time
 import random
 import html
 
-OPENTDB_COOLDOWN = 5.1
-trivia_opentdb_call = 0.0
+OPENTDB_COOLDOWN = 5.1 # Cooldown to avoid hitting rate limits
+trivia_opentdb_call = 0.0 # stores the last OpenTDB call
 
-TRIVIA_POOL = {"easy": [], "medium": [], "hard": []}
+TRIVIA_POOL = {"easy": [], "medium": [], "hard": []} # question bank that stores the batch of questions (10 in our case). This makes it easier to fetch questions.
 
 
 # ----------------------------------SETUP---------------------------------- #
@@ -96,77 +96,77 @@ def register():
     return render_template("register.html")
 
 def opentdb_get(url):
-    global trivia_opentdb_call
-    now = time.monotonic()
+    global trivia_opentdb_call  # Global so it can update trivia_opentdb_call
+    now = time.monotonic() # time_opentdb_call uses time.monotonic(). It's ideal to use this since we only need to track elapsed time
     wait = OPENTDB_COOLDOWN - (now - trivia_opentdb_call)
     if wait > 0:
         time.sleep(wait)
     trivia_opentdb_call = time.monotonic()
-    return get_data(url)
+    return get_data(url) # fetches json if cooldown expires
 
 
 def refill_pool(difficulty, amount=10):
-    url = f"https://opentdb.com/api.php?amount={amount}&difficulty={difficulty}"
-    for _ in range(3):
+    url = f"https://opentdb.com/api.php?amount={amount}&difficulty={difficulty}" # api endpoint
+    for _ in range(3): # a for loop to error handle, we send OpenTDB a request up to 3  times if  an error is hit, if not we continue and refill the pool
         data = opentdb_get(url)
-        if data == url_err:
+        if data == url_err: #if there's any error fetching the json we continue
             continue
         if data.get("response_code") == 5:
-            time.sleep(OPENTDB_COOLDOWN)
+            time.sleep(OPENTDB_COOLDOWN) #  If this is hit it means a ratelimit occured
             continue
         if data.get("response_code") == 0 and data.get("results"):
-            TRIVIA_POOL[difficulty].extend(data["results"])
+            TRIVIA_POOL[difficulty].extend(data["results"]) # Response code 0 indicates success
             return True
-    return False
+    return False # If true isn't returned that means OpenTDB did not refill the pool of questions, we need to try again.
 
 
 def get_trivia_question(difficulty=None):
     if difficulty not in ["easy", "medium", "hard"]:
-        difficulty = "easy"
+        difficulty = "easy" #if no difficulty is selected (error handle) it'll  be easy automatically
 
-    if not TRIVIA_POOL[difficulty]:
+    if not TRIVIA_POOL[difficulty]: #if the trivia pool is empty we attempt to refill the pool
         ok = refill_pool(difficulty, amount=10)
         if not ok:
-            return url_err
+            return url_err #returns url_err if the refill fails
 
-    q = TRIVIA_POOL[difficulty].pop(0)
-    return {"response_code": 0, "results": [q]}
+    q = TRIVIA_POOL[difficulty].pop(0) #If we have a pool we pop (get rid of the first index) to the next question
+    return {"response_code": 0, "results": [q]} #Wrapping  the question that matches the OpenTDB json
 
 @app.route("/trivia", methods=["GET", "POST"])
 def trivia():
-    if "username" not in session:
+    if "username" not in session: # login handling
         return redirect(url_for("login"))
 
     user = session["username"]
 
-    if request.method == "GET":
+    if request.method == "GET": # Get request telling us what to display  "choose"  which is the difficulty section and points 
         return render_template(
             "trivia.html",
             username=user,
             stage="choose",
             points=data.get_score(user)
-        )
+        )  
 
     chosen = request.form.get("difficulty") or request.form.get("current_difficulty")
     if chosen not in ["easy", "medium", "hard"]:
-        chosen = "easy"
+        chosen = "easy" # Determing difficulty
 
     picked = request.form.get("answer")
-    if picked:
-        correct = session.get("trivia_correct")
+    if picked: #Score the submitted answer, picked = the answer  submitted
+        correct = session.get("trivia_correct") #trivia_correct grabs the actual answer
         last_diff = session.get("trivia_difficulty", chosen)
 
-        if correct and picked == correct:
+        if correct and picked == correct: #if the answer is correct then award points
             pts = {"easy": 10, "medium": 20, "hard": 30}[last_diff]
             data.add_to_score(user, pts)
 
-    trivia_data = get_trivia_question(chosen)
+    trivia_data = get_trivia_question(chosen) #Gets the next question via pop or refills
     if trivia_data == url_err:
-        return render_template("keyerror.html", API="opentdb", err=trivia_data)
+        return render_template("keyerror.html", API="opentdb", err=trivia_data) #if url_err is returned we contact trivia.html basically to display error
 
-    q = trivia_data["results"][0]
-    session["trivia_correct"] = q["correct_answer"]   
-    session["trivia_difficulty"] = chosen
+    q = trivia_data["results"][0] #Question and  answer choices
+    session["trivia_correct"] = q["correct_answer"]  # Right  answer
+    session["trivia_difficulty"] = chosen # Difficulty
 
     return render_template(
         "trivia.html",
