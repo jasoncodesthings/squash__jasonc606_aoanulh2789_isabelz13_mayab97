@@ -14,8 +14,6 @@ import json
 import sqlite3
 import data
 import time
-import random
-import html
 
 OPENTDB_COOLDOWN = 5.1 # Cooldown to avoid hitting rate limits
 trivia_opentdb_call = 0.0 # stores the last OpenTDB call
@@ -95,6 +93,7 @@ def register():
             return render_template("register.html", error = execute_register)
     return render_template("register.html")
 
+
 def opentdb_get(url):
     global trivia_opentdb_call  # Global so it can update trivia_opentdb_call
     now = time.monotonic() # time_opentdb_call uses time.monotonic(). It's ideal to use this since we only need to track elapsed time
@@ -103,7 +102,6 @@ def opentdb_get(url):
         time.sleep(wait)
     trivia_opentdb_call = time.monotonic()
     return get_data(url) # fetches json if cooldown expires
-
 
 def refill_pool(difficulty, amount=10):
     url = f"https://opentdb.com/api.php?amount={amount}&difficulty={difficulty}" # api endpoint
@@ -150,13 +148,16 @@ def trivia():
     chosen = request.form.get("difficulty") or request.form.get("current_difficulty")
     if chosen not in ["easy", "medium", "hard"]:
         chosen = "easy" # Determing difficulty
-
+    
     picked = request.form.get("answer")
+    print(picked)
     if picked: #Score the submitted answer, picked = the answer  submitted
+        print("the user picked an answer")
         correct = session.get("trivia_correct") #trivia_correct grabs the actual answer
         last_diff = session.get("trivia_difficulty", chosen)
 
         if correct and picked == correct: #if the answer is correct then award points
+            print("user is correct")
             pts = {"easy": 10, "medium": 20, "hard": 30}[last_diff]
             data.add_to_score(user, pts)
 
@@ -177,9 +178,8 @@ def trivia():
         points=data.get_score(user)
     )
 
-
 def get_joke():
-    url = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,political,racist,sexist"
+    url = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit"
     data = get_data (url)
     return data   
         
