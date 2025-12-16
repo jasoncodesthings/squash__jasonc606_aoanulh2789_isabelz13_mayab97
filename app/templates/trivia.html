@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type = "text/tailwindcss">
+    <style type="text/tailwindcss">
       @theme {
-         --font-title: "roboto", sans-serif;
-         --font-mono: "in", inconsolata;
-         --color-pastel-blue: #d4f5ff;
-         --color-pizza: #0000FF;
-       }
+        --font-title: "roboto", sans-serif;
+        --font-mono: "in", inconsolata;
+        --color-pastel-blue: #d4f5ff;
+        --color-pizza: #0000FF;
+      }
     </style>
 
     <title>Squash's Trivia Page</title>
-
   </head>
 
-  <body class = "bg-linear-to-r from-green-300 to-violet-300">
+  <body class="bg-linear-to-r from-green-300 to-violet-300">
     <nav>
       <a href="{{ url_for('home') }}">Home</a>
       <a href="{{ url_for('jokes') }}">Jokes</a>
@@ -47,11 +46,16 @@
       <p>Difficulty: <span id="difficulty"></span></p>
       <p>Category: <span id="category"></span></p>
 
-      <p>Answer Choices:</p>
-      <div id="answers"></div>
       <div id="message"></div>
 
-      <p>Current Score: <span id="currScore">0</span></p>
+      <p>Total Points: <span id="totalPoints">{{ points }}</span></p>
+
+      <p>Answer Choices:</p>
+
+      <form action="{{ url_for('trivia') }}" method="post" id="answerForm">
+        <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
+        <div id="answers"></div>
+      </form>
 
       <form action="{{ url_for('trivia') }}" method="post">
         <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
@@ -83,12 +87,6 @@
           answersRaw[j] = tmp;
         }
 
-        var currScore = 0;
-        function updateScore() {
-          document.getElementById("currScore").textContent = currScore;
-        }
-        updateScore();
-
         var answered = false;
         var answersDiv = document.getElementById("answers");
 
@@ -99,23 +97,16 @@
 
         answersRaw.forEach(function(ansRaw) {
           var btn = document.createElement("button");
-          btn.type = "button";
+          btn.type = "submit";
+          btn.name = "answer";
+          btn.value = ansRaw;
           btn.textContent = decodeHtml(ansRaw);
 
           btn.onclick = function() {
-            if (answered) return;
+            if (answered) return false;
             answered = true;
-
-            if (ansRaw === correctRaw) {
-              document.getElementById("message").textContent = "Correct";
-              currScore += 1;
-              updateScore();
-            } else {
-              document.getElementById("message").textContent =
-                "Incorrect. Correct answer: " + decodeHtml(correctRaw);
-            }
-
             disableAll();
+            return true;
           };
 
           answersDiv.appendChild(btn);
