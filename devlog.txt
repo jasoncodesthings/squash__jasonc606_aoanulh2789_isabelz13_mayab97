@@ -77,3 +77,8 @@ jasonC -- 2025-12-14 23:04
 - created first navbar on home page
  - haven't polished it yet so i'm not pasting it on the other pages yet
  - if the username is >55 characters long, it will extend the webpage to the right and it looks ugly
+
+jasonC -- 2025-12-16 6:49
+- styling trivia work in progress
+- navbar improvements
+- trying to figure out a css file to get fonts working?
