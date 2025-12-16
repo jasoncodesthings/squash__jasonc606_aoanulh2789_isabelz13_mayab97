@@ -27,88 +27,32 @@
         <button type="submit" name="difficulty" value="hard">Hard</button>
       </form>
 
-    {% else %}
-      <h3>Trivia Question:</h3>
-      <p id="question"></p>
-
-      <p>Difficulty: <span id="difficulty"></span></p>
-      <p>Category: <span id="category"></span></p>
-
-      <p>Answer Choices:</p>
-      <div id="answers"></div>
-      <div id="message"></div>
-
-      <p>Total Points: <span id="Points"> {{ points }}</span></p>
-
-      <form action="{{ url_for('trivia') }}" method="post">
-        <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
-        <button name="nextbtn" type="submit">Next</button>
-      </form>
-
-      <script>
-        var triviaData = {{ trivia | tojson }};
-        var q = triviaData.results[0];
-
-        function decodeHtml(s) {
-          var t = document.createElement("textarea");
-          t.innerHTML = s;
-          return t.value;
-        }
-
-        document.getElementById("question").textContent = decodeHtml(q.question);
-        document.getElementById("difficulty").textContent = decodeHtml(q.difficulty);
-        document.getElementById("category").textContent = decodeHtml(q.category);
-
-        var correctRaw = q.correct_answer;
-        var answersRaw = q.incorrect_answers.slice();
-        answersRaw.push(correctRaw);
-
-        for (var i = answersRaw.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var tmp = answersRaw[i];
-          answersRaw[i] = answersRaw[j];
-          answersRaw[j] = tmp;
-        }
-
-        var Points = {{ points }};
-        function updateScore() {
-          document.getElementById("Points").textContent = {{ points }};
-        }
-        updateScore();
-
-        var answered = false;
-        var answersDiv = document.getElementById("answers");
-
-        function disableAll() {
-          var btns = answersDiv.querySelectorAll("button");
-          btns.forEach(function(b) { b.disabled = true; });
-        }
-
-        answersRaw.forEach(function(ansRaw) {
-          var btn = document.createElement("button");
-          btn.type = "button";
-          btn.textContent = decodeHtml(ansRaw);
-
-          btn.onclick = function() {
-            if (answered) return;
-            answered = true;
-
-            if (ansRaw === correctRaw) {
-              document.getElementById("message").textContent = "Correct";
-              {{ add_points(username, 10) }};
-              updateScore();
-            } else {
-              document.getElementById("message").textContent =
-                "Incorrect. Correct answer: " + decodeHtml(correctRaw);
-            }
-
-            disableAll();
-          };
-
-          answersDiv.appendChild(btn);
-          answersDiv.appendChild(document.createTextNode(" "));
-        });
-      </script>
-    {% endif %}
+     {% else %}
+    <h3>Trivia Question:</h3>
+    <p>{{ q["question"] }}</p>
+  
+    <p>Difficulty: {{ q["difficulty"] }}</p>
+    <p>Category: {{ q["category"] }}</p>
+  
+    <div id="message">{{ message }}</div>
+  
+    <p>Total Points: <span id="Points">{{ points }}</span></p>
+  
+    <p>Answer Choices:</p>
+    <form action="{{ url_for('trivia') }}" method="post">
+      <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
+      <input type="hidden" name="action" value="answer">
+  
+      {% for a in answers %}
+        <button type="submit" name="answer" value="{{ a }}">{{ a }}</button>
+      {% endfor %}
+    </form>
+  
+    <form action="{{ url_for('trivia') }}" method="post">
+      <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
+      <input type="hidden" name="action" value="next">
+      <button type="submit">Next</button>
+    </form>
+  {% endif %}
   </body>
 </html>
