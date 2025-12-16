@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<!--
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
       @theme {
@@ -13,6 +13,7 @@
         --color-pizza: #0000FF;
       }
     </style>
+!-->
 
     <title>Squash's Trivia Page</title>
   </head>
@@ -32,7 +33,7 @@
     <!-- Jinja conditional: if stage == "choose", show the difficulty buttons -->
     {% if stage == "choose" %}
       <h3>Choose Difficulty</h3>
-      <!-- Submits the chosen difficulty to /trivia as POST -->
+      <!-- Submits the chosen difficulty to /trivia via POST -->
       <form action="{{ url_for('trivia') }}" method="post">
         <button type="submit" name="difficulty" value="easy">Easy</button>
         <button type="submit" name="difficulty" value="medium">Medium</button>
@@ -101,16 +102,21 @@
         // Creates a submit button for each answer choice
         answersRaw.forEach(function(ansRaw) {
           var btn = document.createElement("button");
-          btn.type = "submit";
-          btn.name = "answer";
-          btn.value = ansRaw;
+          btn.type = "button";
           btn.textContent = decodeHtml(ansRaw);
 
           btn.onclick = function() {
-            if (answered) return false;
+            if (answered) return;
             answered = true;
+
+            if (ansRaw === correctRaw) {
+              document.getElementById("message").textContent = "Correct";
+            } else {
+              document.getElementById("message").textContent =
+                "Incorrect. Correct answer: " + decodeHtml(correctRaw);
+            }
+
             disableAll();
-            return true;
           };
 
           answersDiv.appendChild(btn);
