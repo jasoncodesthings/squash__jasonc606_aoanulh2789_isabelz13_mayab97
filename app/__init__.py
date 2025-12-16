@@ -137,68 +137,46 @@ def trivia():
     if "username" not in session:
         return redirect(url_for("login"))
 
-    username = session["username"]
+    user = session["username"]
 
     if request.method == "GET":
         return render_template(
             "trivia.html",
-            username=username,
+            username=user,
             stage="choose",
-            points=data.get_score(username)
+            points=data.get_score(user)
         )
 
-    action = request.form.get("action", "")
-    chosen = request.form.get("difficulty") or request.form.get("current_difficulty") or "easy"
+    chosen = request.form.get("difficulty") or request.form.get("current_difficulty")
     if chosen not in ["easy", "medium", "hard"]:
         chosen = "easy"
 
-    message = ""
-
-    if action == "answer":
-        user_answer = request.form.get("answer", "")
+    picked = request.form.get("answer")
+    if picked:
         correct = session.get("trivia_correct")
-        difficulty = session.get("trivia_difficulty", chosen)
+        last_diff = session.get("trivia_difficulty", chosen)
 
-        if correct is not None and user_answer == correct:
-            pts_map = {"easy": 10, "medium": 20, "hard": 30}
-            pts = pts_map.get(difficulty, 10)
-            data.add_to_score(username, pts)
-            message = f"Correct! +{pts} points."
-        else:
-            message = f"Incorrect. Correct answer: {html.unescape(correct) if correct else ''}"
+        if correct and picked == correct:
+            pts = {"easy": 10, "medium": 20, "hard": 30}[last_diff]
+            data.add_to_score(user, pts)
 
     trivia_data = get_trivia_question(chosen)
     if trivia_data == url_err:
         return render_template("keyerror.html", API="opentdb", err=trivia_data)
 
     q = trivia_data["results"][0]
-
-    question = html.unescape(q["question"])
-    category = html.unescape(q["category"])
-    difficulty = html.unescape(q["difficulty"])
-    correct_answer = html.unescape(q["correct_answer"])
-
-    answers = [html.unescape(a) for a in q["incorrect_answers"]]
-    answers.append(correct_answer)
-    random.shuffle(answers)
-
-    session["trivia_correct"] = correct_answer
+    session["trivia_correct"] = q["correct_answer"]   
     session["trivia_difficulty"] = chosen
 
     return render_template(
         "trivia.html",
-        username=username,
+        username=user,
+        trivia=trivia_data,
         stage="question",
         chosen_difficulty=chosen,
-        points=data.get_score(username),
-        message=message,
-        q={
-            "question": question,
-            "category": category,
-            "difficulty": difficulty
-        },
-        answers=answers
+        points=data.get_score(user)
     )
+
 
 def get_joke():
     url = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,political,racist,sexist"
