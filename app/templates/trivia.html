@@ -29,10 +29,10 @@
     <h2>trivia</h2>
     <p>logged in as {{ username }}</p>
     <hr>
-
+    <!-- Jinja conditional: if stage == "choose", show the difficulty buttons -->
     {% if stage == "choose" %}
       <h3>Choose Difficulty</h3>
-
+      <!-- Submits the chosen difficulty to /trivia as POST -->
       <form action="{{ url_for('trivia') }}" method="post">
         <button type="submit" name="difficulty" value="easy">Easy</button>
         <button type="submit" name="difficulty" value="medium">Medium</button>
@@ -40,6 +40,7 @@
       </form>
 
     {% else %}
+     <!-- (stage == "question"), shows the question UI -->
       <h3>Trivia Question:</h3>
       <p id="question"></p>
 
@@ -47,7 +48,7 @@
       <p>Category: <span id="category"></span></p>
 
       <div id="message"></div>
-
+      <!-- Shows total points from Flask (data.get_score(user)) -->
       <p>Total Points: <span id="totalPoints">{{ points }}</span></p>
 
       <p>Answer Choices:</p>
@@ -62,31 +63,34 @@
         <button name="nextbtn" type="submit">Next</button>
       </form>
 
-      <script>
+      
+    <script>
+      // trivia is the OpenTDB dict passed from Flask (get_trivia_question() result)
         var triviaData = {{ trivia | tojson }};
         var q = triviaData.results[0];
-
+        // the Html sometimes decodes incorrectly returning symbols like (&*$). This decodes it safely.
         function decodeHtml(s) {
           var t = document.createElement("textarea");
           t.innerHTML = s;
           return t.value;
         }
-
+        // Put decoded question/difficulty/category into the page
         document.getElementById("question").textContent = decodeHtml(q.question);
         document.getElementById("difficulty").textContent = decodeHtml(q.difficulty);
         document.getElementById("category").textContent = decodeHtml(q.category);
-
+        // Collect answers: correct + incorrect, then shuffle them
         var correctRaw = q.correct_answer;
         var answersRaw = q.incorrect_answers.slice();
         answersRaw.push(correctRaw);
 
+      // Shuffling using the Knuth Shuffle  (reordering elements by iterating from the end and swapping each element with a random one)
         for (var i = answersRaw.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
           var tmp = answersRaw[i];
           answersRaw[i] = answersRaw[j];
           answersRaw[j] = tmp;
         }
-
+        // This prevents user from submitting multiple answers
         var answered = false;
         var answersDiv = document.getElementById("answers");
 
@@ -94,7 +98,7 @@
           var btns = answersDiv.querySelectorAll("button");
           btns.forEach(function(b) { b.disabled = true; });
         }
-
+        // Creates a submit button for each answer choice
         answersRaw.forEach(function(ansRaw) {
           var btn = document.createElement("button");
           btn.type = "submit";
