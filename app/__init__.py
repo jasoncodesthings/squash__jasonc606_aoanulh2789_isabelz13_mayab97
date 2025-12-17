@@ -178,6 +178,21 @@ def trivia():
         points=data.get_score(user)
     )
 
+@app.route("/leaderboard", methods=["GET"])
+def leaderboard():
+    if "username" not in session:  # login handling
+        return redirect(url_for("login"))
+
+    # Get the top 10 players from the database
+    top_players = data.get_top_players()
+
+    return render_template(
+        "leaderboard.html",
+        username=session["username"],  # Pass current username to leaderboard.html
+        top_players=top_players  # Pass the top 10 players to leaderboard.html
+    )
+
+
 def get_joke():
     url = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit"
     data = get_data (url)
