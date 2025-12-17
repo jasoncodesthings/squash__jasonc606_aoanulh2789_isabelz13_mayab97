@@ -89,3 +89,7 @@ mayaB -- 2025-12-16 22:43
 	- Don't do anything yet, but can access their values in __init__
 	- Retain previous values upon refresh
 	- Not in main yet bc useless atm but promising
+
+jasonC -- 2025-12-17 1:40
+- styling login pretty much done and polished
+- FINALLY I FIGURED OUT HOW TO ADD CUSTOM FONTS OMG YES!!!!!!
