@@ -163,7 +163,7 @@ def jokes():
         return render_template ("keyerror.html", API = "Jokes API", err = joke_data)
     return render_template("jokes.html", username = session['username'], joke = joke_db)
 
-@app.route("/activites")
+@app.route("/activites", methods=["GET", "POST"])
 def activities():
 
     url = "https://bored-api.appbrewery.com/random"
@@ -171,8 +171,22 @@ def activities():
     data = get_data(url)
     if (data == url_err):
         return render_template("keyerror.html", API="Bored API", err=data)
+    
+    # get values for sliders. set to default
+    num_val = 0
+    price = 0
+    accessibility = 0
+    duration = 0
+    slider_mode = 0
+    if "slider_mode" in request.form:
+        # all values in here
+        num_val = request.form.get("num_val")
+        price = request.form.get("price")
+        accessibility = request.form.get("accessibility")
+        duration = request.form.get("duration")
+        slider_mode = request.form.get("slider_mode")
 
-    return render_template("activities.html", username=session['username'], data=data)
+    return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration, slider_mode=slider_mode)
 
 @app.route("/logout")
 def logout():

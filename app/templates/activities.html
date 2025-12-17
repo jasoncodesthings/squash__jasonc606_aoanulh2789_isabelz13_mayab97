@@ -6,6 +6,7 @@
     <title>Acitivies</title>
   </head>
   <body>
+	
     <nav>
       <a href="{{ url_for('home') }}">Home</a>
       <a href="{{ url_for('jokes') }}">Jokes</a>
@@ -13,14 +14,30 @@
       <a href="{{ url_for('activities') }}">You are here</a>
       <a href="{{ url_for('logout') }}">Logout</a>
     </nav>
+		
     <h3>Generate An Activity...</h3>
+		
     {{ data }}<br><br> <!--temporary-->
+		
+		<!--display-->
     <p>category: {{ data['type'] }}</p>
     <h2>{{ data['activity'] }}</h2>
     <p>Accessibility: {{ data['accessibility'] }}</p>
     <p>Duration: {{ data['duration'] }}</p>
     <p>Number of participants: {{ data['participants'] }}</p>
     <p>Price: {{ data['price'] }}</p>
-    <a href="{{ url_for('activities') }}">Generate new</a>
+		
+		<!--settings-->
+		<p>Settings</p>
+		<form method="POST" action="activites">
+			<!-- have a slider for each setting with a range equaling the number of options. indices of options array! -->
+			<input type="range" min="0" max="10" value={{ num_val }} name="num_val" /><br>
+			<input type="range" min="0" max="10" value={{ price }} name="price" /><br>
+			<input type="range" min="0" max="10" value={{ accessibility }} name="accessibility" /><br>
+			<input type="range" min="0" max="10" value={{ duration }} name="duration" /><br>
+			<input type="range" min="0" max="2" value={{ slider_mode }} name="slider_mode" /><br>
+			<input type="submit" value="Generate new" />
+		</form>
+		
   </body>
 </html>
