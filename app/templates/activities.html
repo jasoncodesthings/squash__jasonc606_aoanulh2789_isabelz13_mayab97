@@ -20,7 +20,9 @@
     {{ data }}<br><br> <!--temporary-->
 		
 		<!--display-->
+		<!-- make this a dropdown -->
     <p>category: {{ data['type'] }}</p>
+		<!-- add kid friendly button -->
     <h2>{{ data['activity'] }}</h2>
     <p>Accessibility: {{ data['accessibility'] }}</p>
     <p>Duration: {{ data['duration'] }}</p>
@@ -37,6 +39,7 @@
 			Price <input type="range" min="0" max="10" value={{ price }} name="price" /><br>
 			Accessibility <input type="range" min="0" max="10" value={{ accessibility }} name="accessibility" /><br>
 			Duration <input type="range" min="0" max="10" value={{ duration }} name="duration" /><br>
+			<!-- add 'consider factor' button for all above-->
 			<br>
 			SLIDER MODE <input type="range" min="0" max="2" value={{ slider_mode }} name="slider_mode" /><br>
 			<input type="submit" value="Generate new" />
