@@ -187,7 +187,7 @@ def activities():
         slider_mode = request.form.get("slider_mode")
 
     # arrays of options for sliders--index corresponds to chosen option
-    num_val_options = [1,2,3,4,5,6,8]
+    num_val_options = ["1", "2", "3", "4", "5", "6", "8"]
     accessibility_options = ["few to no challenges", "minor challenges", "some challenges"]
     duration_options = ["minutes", "hours"]
 
