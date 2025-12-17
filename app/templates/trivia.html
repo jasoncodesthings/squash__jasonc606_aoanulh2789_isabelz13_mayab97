@@ -56,6 +56,7 @@
 
       <form action="{{ url_for('trivia') }}" method="post" id="answerForm">
         <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
+        <input type="hidden" name="answer" id="selectedAnswer">
         <div id="answers"></div>
       </form>
 
@@ -105,20 +106,21 @@
           btn.type = "button";
           btn.textContent = decodeHtml(ansRaw);
 
-          btn.onclick = function() {
-            if (answered) return;
-            answered = true;
-
-            if (ansRaw === correctRaw) {
-              document.getElementById("message").textContent = "Correct";
-            } else {
-              document.getElementById("message").textContent =
-                "Incorrect. Correct answer: " + decodeHtml(correctRaw);
-            }
-
-            disableAll();
-          };
-
+        btn.onclick = function() {
+          if (answered) return;
+          answered = true;
+        
+          document.getElementById("selectedAnswer").value = ansRaw;
+        
+          if (ansRaw === correctRaw) {
+            document.getElementById("message").textContent = "Correct";
+          } else {
+            document.getElementById("message").textContent =
+              "Incorrect. Correct answer: " + decodeHtml(correctRaw);
+          }
+        
+          disableAll();
+        };
           answersDiv.appendChild(btn);
           answersDiv.appendChild(document.createTextNode(" "));
         });
