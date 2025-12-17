@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+  </head>
+  <body>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('trivia') }}">Trivia</a>
+      <a href="{{ url_for('activities') }}">Activities</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <h2>Leaderboard</h2>
+    <p>Logged in as {{ username }}</p>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Username</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for idx, player in enumerate(top_players) %} <!-- idx = index and enumerate() is a python function that iterates through top players starting at idx 0 !-->
+          <tr>
+            <td>{{ idx + 1 }}</td>
+            <td>{{ player[0] }}</td>  <!-- player[0] is the username -->
+            <td>{{ player[1] }}</td>  <!-- player[1] is the trivia score -->
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
