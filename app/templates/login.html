@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type = "text/tailwindcss">
       @theme {
@@ -19,7 +20,7 @@
   </head>
 
   <body class = "bg-linear-to-r from-fuchsia-300 to-orange-300">
-    <h2 class = "text-center text-[140px]">Enter username and password to login</h2>
+    <h2 class = "font-fancy text-center text-[140px]">Enter username and password to login</h2>
     <br>
     <form method="post" class = "text-center">
       <label for="username">Username:</label>
