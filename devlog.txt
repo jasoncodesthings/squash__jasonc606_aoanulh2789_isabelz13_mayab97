@@ -82,3 +82,10 @@ jasonC -- 2025-12-16 6:49
 - styling trivia work in progress
 - navbar improvements
 - trying to figure out a css file to get fonts working?
+
+mayaB -- 2025-12-16 22:43
+- Finally figured out some slider stuff, added to activites html template
+	- Correct number of sliders, labeled
+	- Don't do anything yet, but can access their values in __init__
+	- Retain previous values upon refresh
+	- Not in main yet bc useless atm but promising
