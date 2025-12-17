@@ -18,15 +18,15 @@
 
   </head>
 
-  <body class = "bg-linear-to-r from-fuchsia-400 to-orange-400">
-    <h2 class = "text-center text-[100px]">Enter username and password to login</h2>
+  <body class = "bg-linear-to-r from-fuchsia-300 to-orange-300">
+    <h2 class = "text-center text-[140px]">Enter username and password to login</h2>
     <br>
-    <form method="post">
+    <form method="post" class = "text-center">
       <label for="username">Username:</label>
       <br>
 
       <div>
-      <input type="text" name="username" id="username" class = "bg-pastel-blue border-1 border-indigio-600">
+      <input type="text" name="username" id="username" class = "bg-pastel-blue border-1 border-indigio-600 w-1/5 h-7">
       </div>
 
       <br>
@@ -35,22 +35,25 @@
       <br>
 
       <div>
-      <input type="password" name="password" id="password" class = "bg-pastel-blue border-1 border-indigio-600">
+      <input type="password" name="password" id="password" class = "bg-pastel-blue border-1 border-indigio-600 w-1/5 h-7">
       </div>
 
       <br>
       <br>
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">Login</button>
+      <button class = "bg-pastel-blue border-1 border-indigio-600 w-1/11 hover:bg-white rounded-full">Login</button>
     </form>
 
     <br>
     {% if error %}
       <h3>{{ error }}</h3>
     {% endif %}
-    <p>Don't have an account?
-      <button class = "bg-pastel-blue border-1 border-indigio-600 hover:bg-white">
-      <a href="{{ url_for('register') }}">Register here</a>
-      </button>
+    <p class = "text-center">Don't have an account?
+
+    </br>
+
+    <button class = "bg-pastel-blue border-1 border-indigio-600 w-1/11 hover:bg-white rounded-full">
+    <a href="{{ url_for('register') }}">Register here</a>
+    </button>
     </p>
 
   </body>
