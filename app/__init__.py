@@ -132,12 +132,12 @@ def get_trivia_question(difficulty=None):
 
 @app.route("/trivia", methods=["GET", "POST"])
 def trivia():
-    if "username" not in session: # login handling
+    if "username" not in session:  # login handling
         return redirect(url_for("login"))
 
     user = session["username"]
 
-    if request.method == "GET": # Get request telling us what to display  "choose"  which is the difficulty section and points 
+    if request.method == "GET":  # Get request telling us what to display  "choose" which is the difficulty section and points 
         return render_template(
             "trivia.html",
             username=user,
@@ -147,27 +147,27 @@ def trivia():
 
     chosen = request.form.get("difficulty") or request.form.get("current_difficulty")
     if chosen not in ["easy", "medium", "hard"]:
-        chosen = "easy" # Determing difficulty
+        chosen = "easy"  # Determining difficulty
     
-    picked = request.form.get("answer")
+    picked = request.form.get("answer")  # Get the selected answer from the form
     print(picked)
-    if picked: #Score the submitted answer, picked = the answer  submitted
+    if picked:  # Score the submitted answer, picked = the answer  submitted
         print("the user picked an answer")
-        correct = session.get("trivia_correct") #trivia_correct grabs the actual answer
+        correct = session.get("trivia_correct")  # trivia_correct grabs the actual answer
         last_diff = session.get("trivia_difficulty", chosen)
 
-        if correct and picked == correct: #if the answer is correct then award points
+        if correct and picked == correct:  # If the answer is correct, then award points
             print("user is correct")
             pts = {"easy": 10, "medium": 20, "hard": 30}[last_diff]
             data.add_to_score(user, pts)
 
-    trivia_data = get_trivia_question(chosen) #Gets the next question via pop or refills
+    trivia_data = get_trivia_question(chosen)  # Gets the next question via pop or refills
     if trivia_data == url_err:
-        return render_template("keyerror.html", API="opentdb", err=trivia_data) #if url_err is returned we contact trivia.html basically to display error
+        return render_template("keyerror.html", API="opentdb", err=trivia_data)  # if url_err is returned we contact trivia.html basically to display error
 
-    q = trivia_data["results"][0] #Question and  answer choices
+    q = trivia_data["results"][0]  # Question and  answer choices
     session["trivia_correct"] = q["correct_answer"]  # Right  answer
-    session["trivia_difficulty"] = chosen # Difficulty
+    session["trivia_difficulty"] = chosen  # Difficulty
 
     return render_template(
         "trivia.html",
