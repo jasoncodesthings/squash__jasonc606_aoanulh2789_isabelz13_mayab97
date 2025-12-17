@@ -27,15 +27,18 @@
     <p>Number of participants: {{ data['participants'] }}</p>
     <p>Price: {{ data['price'] }}</p>
 		
+		<br><br>
+		
 		<!--settings-->
 		<p>Settings</p>
 		<form method="POST" action="activites">
 			<!-- have a slider for each setting with a range equaling the number of options. indices of options array! -->
-			<input type="range" min="0" max="10" value={{ num_val }} name="num_val" /><br>
-			<input type="range" min="0" max="10" value={{ price }} name="price" /><br>
-			<input type="range" min="0" max="10" value={{ accessibility }} name="accessibility" /><br>
-			<input type="range" min="0" max="10" value={{ duration }} name="duration" /><br>
-			<input type="range" min="0" max="2" value={{ slider_mode }} name="slider_mode" /><br>
+			Number of people <input type="range" min="0" max="10" value={{ num_val }} name="num_val" /><br>
+			Price <input type="range" min="0" max="10" value={{ price }} name="price" /><br>
+			Accessibility <input type="range" min="0" max="10" value={{ accessibility }} name="accessibility" /><br>
+			Duration <input type="range" min="0" max="10" value={{ duration }} name="duration" /><br>
+			<br>
+			SLIDER MODE <input type="range" min="0" max="2" value={{ slider_mode }} name="slider_mode" /><br>
 			<input type="submit" value="Generate new" />
 		</form>
 		
