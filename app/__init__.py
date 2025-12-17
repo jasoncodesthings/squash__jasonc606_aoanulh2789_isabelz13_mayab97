@@ -154,10 +154,10 @@ def trivia():
 def get_joke():
     url = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit"
     data = get_data (url)
-    return data   
-        
-@app.route("/jokes") 
-def jokes(): 
+    return data
+
+@app.route("/jokes")
+def jokes():
     joke_db = get_joke()
     if (joke_db == url_err):
         return render_template ("keyerror.html", API = "Jokes API", err = joke_data)
@@ -171,7 +171,7 @@ def activities():
     data = get_data(url)
     if (data == url_err):
         return render_template("keyerror.html", API="Bored API", err=data)
-    
+
     # get values for sliders. set to default
     num_val = 0
     price = 0
@@ -185,6 +185,11 @@ def activities():
         accessibility = request.form.get("accessibility")
         duration = request.form.get("duration")
         slider_mode = request.form.get("slider_mode")
+
+    # arrays of options for sliders--index corresponds to chosen option
+    num_val_options = [1,2,3,4,5,6,8]
+    accessibility_options = ["few to no challenges", "minor challenges", "some challenges"]
+    duration_options = ["minutes", "hours"]
 
     return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration, slider_mode=slider_mode)
 
