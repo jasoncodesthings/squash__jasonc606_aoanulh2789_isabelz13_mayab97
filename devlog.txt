@@ -102,3 +102,8 @@ aoanulH -- 2025-12-17 8:06
 - Added leaderboard route in __init__.py and adjusted post logic for /trivia.
 - Added comments to ambigious parts of code in __init__.py, data.py, trivia.html & leaderboard.html
 - Going to play around with tailwind more, and start styling everything. Also need to figure out where to put the javascript in trivia.html. Also will add leaderboard to navbar in other pages tomorrow.
+
+jasonC -- 2025-12-18 9:21
+- expanded styling to other pages
+- figured out how to add gifs as background
+  - very scary clowns
