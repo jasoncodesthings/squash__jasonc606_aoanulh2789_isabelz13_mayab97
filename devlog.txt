@@ -93,3 +93,17 @@ mayaB -- 2025-12-16 22:43
 jasonC -- 2025-12-17 1:40
 - styling login pretty much done and polished
 - FINALLY I FIGURED OUT HOW TO ADD CUSTOM FONTS OMG YES!!!!!!
+
+aoanulH -- 2025-12-17 8:06
+- Finished trivia functionality (should be no bugs) will start adding tailwind css once team agrees upon themes/fonts/colors/styles.
+- Implemented answer submission logic (took some time because I had no idea how to send post request without activiating both next and answer submission, ended up just disabling next until user submits (works just as good)).
+- Added get_top_players() function in data.py to fetch the top 10 users with the most points in descending order.
+- Added leaderboard.html, which displays the top 10 via loop.index.
+- Added leaderboard route in __init__.py and adjusted post logic for /trivia.
+- Added comments to ambigious parts of code in __init__.py, data.py, trivia.html & leaderboard.html
+- Going to play around with tailwind more, and start styling everything. Also need to figure out where to put the javascript in trivia.html. Also will add leaderboard to navbar in other pages tomorrow.
+
+jasonC -- 2025-12-18 9:21
+- expanded styling to other pages
+- figured out how to add gifs as background
+  - very scary clowns

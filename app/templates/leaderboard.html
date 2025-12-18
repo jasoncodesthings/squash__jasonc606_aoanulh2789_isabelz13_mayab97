@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --font-title: "roboto", sans-serif;
+        --font-mono: "in", inconsolata;
+        --color-pastel-blue: #d4f5ff;
+        --color-pizza: #0000FF;
+      }
+    </style>
+
+    <title>Leaderboard</title>
+  </head>
+  <body>
+    <body class="bg-linear-to-r from-green-300 to-violet-300">
+        <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('jokes') }}">Jokes</a>
+        <a href="{{ url_for('trivia') }}">Trivia</a>
+        <a href="{{ url_for('activities') }}">Activities</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+
+    <h2>Leaderboard</h2>
+    <p>Logged in as {{ username }}</p>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Username</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+        <tbody>
+        {% for player in top_players %}
+            <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ player[0] }}</td> <!--  this is the username !-->
+            <td>{{ player[1] }}</td> <!--  this is the users points !-->
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  </body>
+</html>

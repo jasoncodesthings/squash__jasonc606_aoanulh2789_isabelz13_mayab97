@@ -57,7 +57,19 @@ def get_all_users():
 def get_score(username):
     return get_field('userdata', 'username', username, 'trivia_score')
 
+def get_top_players():
+    DB_FILE = "data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
 
+    c.execute('SELECT username, trivia_score FROM userdata ORDER BY trivia_score DESC LIMIT 10') # Fetch username, trivia score from userdata and order score by Descending order (top 10)
+    top_players = c.fetchall()
+
+    db.commit()
+    db.close()
+
+    return top_players
+    
 #----------USERDATA-MUTATORS----------#
 
 
