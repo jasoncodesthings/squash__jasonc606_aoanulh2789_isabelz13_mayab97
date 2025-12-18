@@ -206,30 +206,36 @@ def activities():
     if "username" not in session:  # login handling
         return redirect(url_for("login"))
 
-    url = "https://bored-api.appbrewery.com/random"
-
-    data = get_data(url)
-    if (data == url_err):
-        return render_template("keyerror.html", API="Bored API", err=data)
-
     # get values for sliders. set to default
-    num_val = 0
-    price = 0
-    accessibility = 0
+    num_val = 1
+    price = 10
+    accessibility = 1
     duration = 0
     if "num_val" in request.form:
         # all values in here
-        num_val = request.form.get("num_val")
-        price = request.form.get("price")
-        accessibility = request.form.get("accessibility")
-        duration = request.form.get("duration")
+        num_val = int(request.form.get("num_val"))
+        price = int(request.form.get("price"))
+        accessibility = int(request.form.get("accessibility"))
+        duration = int(request.form.get("duration"))
 
     # arrays of options for sliders--index corresponds to chosen option
-    num_val_options = ["1", "2", "3", "4", "5", "6", "8"]
-    price_options = [str(i) for i in range(0.0, 0.4, 0.01)]
-    price_options += ["max"]
-    accessibility_options = ["few to no challenges", "minor challenges", "some challenges"]
-    duration_options = ["minutes", "hours"]
+    num_val_options = [1, 2, 3, 4, 5, 6, 8]
+    price_options = [i for i in range(40)]
+    for i in range(len(price_options)):
+        price_options[i] *= 0.01
+    price_options += [1.0]
+    accessibility_options = ["Few to no challenges", "Minor challenges", "Some challenges", "Major challenges"]
+    duration_options = ["Minutes", "Hours"]
+
+    url = "https://bored-api.appbrewery.com/random"
+
+    data = get_data(url)
+    while data != url_err and (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
+        data = get_data(url)
+    if (data == url_err):
+        return render_template("keyerror.html", API="Bored API", err=data)
+
+    price_options[len(price_options)-1] = "max"
 
     return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
 
