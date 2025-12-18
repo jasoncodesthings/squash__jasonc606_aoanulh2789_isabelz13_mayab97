@@ -135,18 +135,18 @@ def trivia():
 
     user = session["username"]
 
-    if request.method == "GET":  # Get request telling us what to display  "choose" which is the difficulty section and points 
+    if request.method == "GET":  # Get request telling us what to display  "choose" which is the difficulty section and points
         return render_template(
             "trivia.html",
             username=user,
             stage="choose",
             points=data.get_score(user)
-        )  
+        )
 
     chosen = request.form.get("difficulty") or request.form.get("current_difficulty")
     if chosen not in ["easy", "medium", "hard"]:
         chosen = "easy"  # Determining difficulty
-    
+
     picked = request.form.get("answer")  # Get the selected answer from the form
     if picked:  # Score the submitted answer, picked = the answer  submitted
         correct = session.get("trivia_correct")  # trivia_correct grabs the actual answer
@@ -203,6 +203,9 @@ def jokes():
 @app.route("/activites", methods=["GET", "POST"])
 def activities():
 
+    if "username" not in session:  # login handling
+        return redirect(url_for("login"))
+
     url = "https://bored-api.appbrewery.com/random"
 
     data = get_data(url)
@@ -214,21 +217,21 @@ def activities():
     price = 0
     accessibility = 0
     duration = 0
-    slider_mode = 0
-    if "slider_mode" in request.form:
+    if "num_val" in request.form:
         # all values in here
         num_val = request.form.get("num_val")
         price = request.form.get("price")
         accessibility = request.form.get("accessibility")
         duration = request.form.get("duration")
-        slider_mode = request.form.get("slider_mode")
 
     # arrays of options for sliders--index corresponds to chosen option
     num_val_options = ["1", "2", "3", "4", "5", "6", "8"]
+    price_options = [str(i) for i in range(0.0, 0.4, 0.01)]
+    price_options += ["max"]
     accessibility_options = ["few to no challenges", "minor challenges", "some challenges"]
     duration_options = ["minutes", "hours"]
 
-    return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration, slider_mode=slider_mode)
+    return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
 
 @app.route("/logout")
 def logout():
