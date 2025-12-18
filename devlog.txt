@@ -107,3 +107,7 @@ jasonC -- 2025-12-18 9:21
 - expanded styling to other pages
 - figured out how to add gifs as background
   - very scary clowns
+
+isabelZ -- 2025-12-18 11:44 
+- changed the scary clowns to nice ones
+- centered the boxes with jokes, but still needs to style them a little more
