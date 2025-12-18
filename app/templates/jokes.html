@@ -19,7 +19,7 @@
 
   </head>
 
-  <body class = "bg-[url(/static/images/laughingclown.gif)]">
+  <body class = "bg-[url(/static/images/layingclown.gif)]">
   <nav class = "flex items-center bg-gray-800 p-2 align-items: center">
     <div class = "w-50 flex-auto"></div>
 
@@ -45,13 +45,14 @@
     </button>
     </div>
 
-    <div class = "w-50 flex-auto text-white text-right">
+    <div class = "w-50 flex-auto text-white text-left">
     <p>{{ username }}</p>
     </div>
   </nav>
-
+    <div class = "h-screen flex items-center justify-center"> 
+    <div class = "box-content h-auto w-auto p-4 bg-indigo-200">
     <h2>jokes</h2>
-    <p>logged in as {{ username }}</p>
+    <p class = "text-center">logged in as {{ username }}</p>
     {% if joke %}
         {% if joke.type == "single" %}
              <p>{{joke.joke}}</p> <!--separates the setup for a joke-->
@@ -64,5 +65,7 @@
     {% endif %}
     <br>
     <a href = "{{url_for('jokes')}}"> Get Another Joke </a> <!--creates a link to regenerate jokes-->
-  </body>
+ </div>  
+ </body>
+     </div> 
 </html>
