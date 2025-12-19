@@ -108,7 +108,7 @@ jasonC -- 2025-12-18 9:21
 - figured out how to add gifs as background
   - very scary clowns
 
-isabelZ -- 2025-12-18 11:44 
+isabelZ -- 2025-12-18 11:44
 - changed the scary clowns to nice ones
 - centered the boxes with jokes, but still needs to style them a little more
 
@@ -118,4 +118,10 @@ aoanulH -- 2025-12-18 11:47
 
 aoanulH -- 2025-12-18 10:44
 - Finished trivia cs to make it look decent (subject to change based on what the team likes)
-- Need to start leaderboard cs soon + bug testing. 
+- Need to start leaderboard cs soon + bug testing.
+
+mayaB -- 2025-12-19 11:12
+- sliders now work!!
+  - need to add labels, JS for displaying current value
+  - need to add some buttons that disable considering them
+  - still need to style

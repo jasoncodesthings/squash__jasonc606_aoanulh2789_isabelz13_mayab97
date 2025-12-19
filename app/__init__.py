@@ -135,18 +135,18 @@ def trivia():
 
     user = session["username"]
 
-    if request.method == "GET":  # Get request telling us what to display  "choose" which is the difficulty section and points 
+    if request.method == "GET":  # Get request telling us what to display  "choose" which is the difficulty section and points
         return render_template(
             "trivia.html",
             username=user,
             stage="choose",
             points=data.get_score(user)
-        )  
+        )
 
     chosen = request.form.get("difficulty") or request.form.get("current_difficulty")
     if chosen not in ["easy", "medium", "hard"]:
         chosen = "easy"  # Determining difficulty
-    
+
     picked = request.form.get("answer")  # Get the selected answer from the form
     if picked:  # Score the submitted answer, picked = the answer  submitted
         correct = session.get("trivia_correct")  # trivia_correct grabs the actual answer
@@ -191,25 +191,53 @@ def leaderboard():
 def get_joke():
     url = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit"
     data = get_data (url)
-    return data   
-        
-@app.route("/jokes") 
-def jokes(): 
+    return data
+
+@app.route("/jokes")
+def jokes():
     joke_db = get_joke()
     if (joke_db == url_err):
         return render_template ("keyerror.html", API = "Jokes API", err = joke_data)
     return render_template("jokes.html", username = session['username'], joke = joke_db)
 
-@app.route("/activites")
+@app.route("/activites", methods=["GET", "POST"])
 def activities():
+
+    if "username" not in session:  # login handling
+        return redirect(url_for("login"))
+
+    # get values for sliders. set to default
+    num_val = 1
+    price = 10
+    accessibility = 1
+    duration = 0
+    if "num_val" in request.form:
+        # all values in here
+        num_val = int(request.form.get("num_val"))
+        price = int(request.form.get("price"))
+        accessibility = int(request.form.get("accessibility"))
+        duration = int(request.form.get("duration"))
+
+    # arrays of options for sliders--index corresponds to chosen option
+    num_val_options = [1, 2, 3, 4, 5, 6, 8]
+    price_options = [i for i in range(40)]
+    for i in range(len(price_options)):
+        price_options[i] *= 0.01
+    price_options += [1.0]
+    accessibility_options = ["Few to no challenges", "Minor challenges", "Some challenges", "Major challenges"]
+    duration_options = ["minutes", "hours"]
 
     url = "https://bored-api.appbrewery.com/random"
 
     data = get_data(url)
+    while data != url_err and (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
+        data = get_data(url)
     if (data == url_err):
         return render_template("keyerror.html", API="Bored API", err=data)
 
-    return render_template("activities.html", username=session['username'], data=data)
+    price_options[len(price_options)-1] = "max"
+
+    return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
 
 @app.route("/logout")
 def logout():
