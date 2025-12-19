@@ -14,6 +14,7 @@ import json
 import sqlite3
 import data
 import time
+import random
 
 OPENTDB_COOLDOWN = 5.1 # Cooldown to avoid hitting rate limits
 trivia_opentdb_call = 0.0 # stores the last OpenTDB call
@@ -227,10 +228,19 @@ def activities():
     accessibility_options = ["Few to no challenges", "Minor challenges", "Some challenges", "Major challenges"]
     duration_options = ["minutes", "hours"]
 
-    url = "https://bored-api.appbrewery.com/random"
+    url = f"https://bored-api.appbrewery.com/filter?participants={num_val_options[num_val]}"
+    print(url)
+    # add code to handle type selection
 
-    data = get_data(url)
-    while data != url_err and (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
+    data_lst = get_data(url)
+    print(data_lst)
+    while data_lst != url_err:
+        while data_lst != "":
+            index = random.randint(0, len(data_lst))
+            data = data_lst[index]
+            if not (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
+
+            data_lst.pop(index)
         data = get_data(url)
     if (data == url_err):
         return render_template("keyerror.html", API="Bored API", err=data)
