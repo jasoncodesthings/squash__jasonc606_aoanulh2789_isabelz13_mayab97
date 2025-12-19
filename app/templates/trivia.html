@@ -3,8 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/trivia.css') }}">
     <style type="text/tailwindcss">
@@ -16,149 +14,56 @@
       }
     </style>
 
-    <title>The Trivia Page</title>
-
+    <title>Squash's Trivia Page</title>
   </head>
 
   <body class="bg-linear-to-r from-green-300 to-violet-300">
-    <nav class = "flex items-center bg-gray-800 p-2 align-items: center">
-      <div class = "w-50 flex-auto"></div>
-
-      <div class = "flex flex-auto justify-center">
-      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
-      <a href="{{ url_for('home') }}">You are here</a>
-      </button>
-
-      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
       <a href="{{ url_for('jokes') }}">Jokes</a>
-      </button>
-
-      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('trivia') }}">Trivia</a>
-      </button>
-
-      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('activities') }}">Activities</a>
-      </button>
-
-      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('logout') }}">Logout</a>
-      </button>
-      </div>
-
-      <div class = "w-50 flex-auto text-white text-right">
-      <p>{{ username }}</p>
-      </div>
     </nav>
 
-    <h2 class = "font-fancy text-center text-[80px]">CHANGE FONT The Ultimate Trivia Challenge</h2>
-
+    <h2>The Ultimate Trivia Challenge</h2>
+    <p>logged in as {{ username }}</p>
     <hr>
-    <br>
+    <!-- Jinja conditional: if stage == "choose", show the difficulty buttons -->
+    {% if stage == "choose" %}
+      <h3>Choose Your Fate</h3>
+      <!-- Submits the chosen difficulty to /trivia via POST -->
+      <form action="{{ url_for('trivia') }}" method="post">
+        <button type="submit" name="difficulty" value="easy">Easy</button>
+        <button type="submit" name="difficulty" value="medium">Medium</button>
+        <button type="submit" name="difficulty" value="hard">Hard</button>
+      </form>
 
-    <div class = "flex flex-auto justify-center">
-      <div class = "w-8/11 text-center bg-teal-200 border-4 border-teal-700 rounded-xl">
-        <!-- Jinja conditional: if stage == "choose", show the difficulty buttons -->
-        {% if stage == "choose" %}
-          <h3 class = "text-[40px]">CHANGE FONT Choose Your Fate</h3>
+    {% else %}
+     <!-- (stage == "question"), shows the question UI -->
+      <h3>Trivia Question:</h3>
+      <p id="question"></p>
 
-          <!-- Submits the chosen difficulty to /trivia via POST -->
-          <form action="{{ url_for('trivia') }}" method="post">
-            <button type="submit" name="difficulty" value="easy" class = "bg-lime-200 border-1 w-1/15 hover:bg-white rounded-full">Easy</button>
-            <button type="submit" name="difficulty" value="medium" class = "bg-amber-200 border-1 w-1/15 hover:bg-white rounded-full">Medium</button>
-            <button type="submit" name="difficulty" value="hard" class = "bg-red-200 border-1 w-1/15 hover:bg-white rounded-full">Hard</button>
-          </form>
+      <p>Difficulty: <span id="difficulty"></span></p>
+      <p>Category: <span id="category"></span></p>
 
+      <div id="message"></div>
+      <!-- Shows total points from Flask (data.get_score(user)) -->
+      <p>Total Points: <span id="totalPoints">{{ points }}</span></p>
 
-        {% else %}
-          <!-- (stage == "question"), shows the question UI -->
-          <h3 class = "text-[40px]">CHANGE FONT Trivia Question:</h3>
+      <p>Answer Choices:</p>
 
-          <p id="question" class = "text-[20px]"></p>
+      <form action="{{ url_for('trivia') }}" method="post" id="answerForm">
+        <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
+        <input type="hidden" name="answer" id="selectedAnswer" value="">
+        <div id="answers"></div>
+        <button id="nextBtn" name="nextbtn" type="submit" disabled>Next</button>
+      </form>
 
-          <p>Difficulty: <span id="difficulty"></span></p>
-
-          <p>Category: <span id="category"></span></p>
-
-          <div id="message"></div>
-          <!-- Shows total points from Flask (data.get_score(user)) -->
-          <p>Total Points: <span id="totalPoints">{{ points }}</span></p>
-
-          <br>
-
-          <p>Choose Your Answer!</p>
-
-          <form action="{{ url_for('trivia') }}" method="post" id="answerForm">
-            <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
-            <input type="hidden" name="answer" id="selectedAnswer" value="">
-            <div id="answers"></div>
-            <button id="nextBtn" name="nextbtn" type="submit" disabled>Next</button>
-          </form>
-
-        <script>
-          // trivia is the OpenTDB dict passed from Flask (get_trivia_question() result)
-            var triviaData = {{ trivia | tojson }};
-            var q = triviaData.results[0];
-            // the Html sometimes decodes incorrectly returning symbols like (&*$). This decodes it safely.
-            function decodeHtml(s) {
-              var t = document.createElement("textarea");
-              t.innerHTML = s;
-              return t.value;
-            }
-            // Put decoded question/difficulty/category into the page
-            document.getElementById("question").textContent = decodeHtml(q.question);
-            document.getElementById("difficulty").textContent = decodeHtml(q.difficulty);
-            document.getElementById("category").textContent = decodeHtml(q.category);
-            // Collect answers: correct + incorrect, then shuffle them
-            var correctRaw = q.correct_answer;
-            var correctDecoded = decodeHtml(correctRaw);
-            var answersRaw = q.incorrect_answers.slice();
-            answersRaw.push(correctRaw);
-
-          // Shuffling using the Knuth Shuffle  (reordering elements by iterating from the end and swapping each element with a random one)
-            for (var i = answersRaw.length - 1; i > 0; i--) {
-              var j = Math.floor(Math.random() * (i + 1));
-              var tmp = answersRaw[i];
-              answersRaw[i] = answersRaw[j];
-              answersRaw[j] = tmp;
-            }
-            // This prevents user from submitting multiple answers
-            var answered = false;
-            var answersDiv = document.getElementById("answers");
-
-            function disableAll() {
-              var btns = answersDiv.querySelectorAll("button");
-              btns.forEach(function(b) { b.disabled = true; });
-            }
-            // Creates a submit button for each answer choice
-            answersRaw.forEach(function(ansRaw) {
-              var btn = document.createElement("button");
-              btn.type = "button";
-              btn.textContent = decodeHtml(ansRaw);
-              btn.onclick = function() {
-                if (answered) return;
-                answered = true;
-
-                var pickedDecoded = decodeHtml(ansRaw);
-                document.getElementById("selectedAnswer").value = pickedDecoded;
-
-                if (pickedDecoded === correctDecoded) {
-                  document.getElementById("message").textContent = "Correct";
-                } else {
-                  document.getElementById("message").textContent =
-                    "Incorrect. Correct answer: " + correctDecoded;
-                }
-
-                disableAll();
-                document.getElementById("nextBtn").disabled = false;
-              };
-              answersDiv.appendChild(btn);
-              answersDiv.appendChild(document.createTextNode(" "));
-            });
-          </script>
-        {% endif %}
-      </div>
-    </div>
-
+      <script>
+        window.TRIVIA_DATA = {{ trivia | tojson }};
+      </script>
+      <script src="{{ url_for('static', filename='js/trivia.js') }}"></script>
+    {% endif %}
   </body>
 </html>
