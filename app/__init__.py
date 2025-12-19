@@ -230,8 +230,10 @@ def activities():
     url = "https://bored-api.appbrewery.com/random"
 
     data = get_data(url)
+    print(f"{duration}")
     while data != url_err and (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
         print(f'Received: {data["price"]}, {data["accessibility"]}, {data["duration"]}')
+        print(f"{duration}")
         print(f'Wanted: {price_options[price]}, {accessibility_options[accessibility]}, {duration_options[duration]}')
         data = get_data(url)
     if (data == url_err):
