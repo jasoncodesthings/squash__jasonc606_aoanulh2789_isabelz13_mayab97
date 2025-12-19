@@ -115,3 +115,7 @@ isabelZ -- 2025-12-18 11:44
 aoanulH -- 2025-12-18 11:47
 - Seperated javscript in html file into a seperate javascript file for trivia (found out using window can transfer jinja variables into js file)
 - Started CSS styling for trivia (trivia.css) not sure how this will work with answer buttons since thats created in js but we'll see.
+
+aoanulH -- 2025-12-18 10:44
+- Finished trivia cs to make it look decent (subject to change based on what the team likes)
+- Need to start leaderboard cs soon + bug testing. 
