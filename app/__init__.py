@@ -225,16 +225,12 @@ def activities():
         price_options[i] *= 0.01
     price_options += [1.0]
     accessibility_options = ["Few to no challenges", "Minor challenges", "Some challenges", "Major challenges"]
-    duration_options = ["Minutes", "Hours"]
+    duration_options = ["minutes", "hours"]
 
     url = "https://bored-api.appbrewery.com/random"
 
     data = get_data(url)
-    print(f"{duration}")
     while data != url_err and (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
-        print(f'Received: {data["price"]}, {data["accessibility"]}, {data["duration"]}')
-        print(f"{duration}")
-        print(f'Wanted: {price_options[price]}, {accessibility_options[accessibility]}, {duration_options[duration]}')
         data = get_data(url)
     if (data == url_err):
         return render_template("keyerror.html", API="Bored API", err=data)
