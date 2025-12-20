@@ -229,25 +229,29 @@ def activities():
     duration_options = ["minutes", "hours"]
 
     url = f"https://bored-api.appbrewery.com/filter?participants={num_val_options[num_val]}"
-    print(url)
     # add code to handle type selection
 
     data_lst = get_data(url)
-    print(data_lst)
-    while data_lst != url_err:
-        while data_lst != "":
-            index = random.randint(0, len(data_lst))
-            data = data_lst[index]
-            if not (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
-
-            data_lst.pop(index)
-        data = get_data(url)
-    if (data == url_err):
-        return render_template("keyerror.html", API="Bored API", err=data)
-
-    price_options[len(price_options)-1] = "max"
-
-    return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
+    
+    # select a random item from data_lst
+    data = ""
+    if data_lst != url_err:
+        
+        while len(data) == 0 and len(data_lst) > 0:
+            item = random.choice(data_lst)
+            # check if this item fulfills the conditions
+            try:
+                if not (float(item["price"]) > price_options[price] or accessibility_options.index(item["accessibility"]) > accessibility or item["duration"] != duration_options[duration]):
+                    data = item
+            except ValueError:
+                pass
+            data_lst.remove(item)
+        
+        price_options[len(price_options)-1] = "max"
+        return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
+    
+    else: # url_err
+        return render_template("keyerror.html", API="Bored API", err=data_lst)
 
 @app.route("/logout")
 def logout():

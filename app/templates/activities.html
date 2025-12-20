@@ -17,17 +17,23 @@
 
     <h3>Generate An Activity...</h3>
 
-    {{ data }}<br><br> <!--temporary-->
+		{% if data == "" %}
+		
+			<h2>No such activity in our database. Try different settings!</h2>
+		
+		{% else %}
 
-		<!--display-->
-		<!-- make this a dropdown -->
-    <p>category: {{ data['type'] }}</p>
-		<!-- add kid friendly button -->
-    <h2>{{ data['activity'] }}</h2>
-    <p>Accessibility: {{ data['accessibility'] }}</p>
-    <p>Duration: {{ data['duration'] }}</p>
-    <p>Number of participants: {{ data['participants'] }}</p>
-    <p>Price: {{ data['price'] }}</p>
+			<!--display-->
+			<!-- make this a dropdown -->
+			<p>category: {{ data['type'] }}</p>
+			<!-- add kid friendly button -->
+			<h2>{{ data['activity'] }}</h2>
+			<p>Accessibility: {{ data['accessibility'] }}</p>
+			<p>Duration: {{ data['duration'] }}</p>
+			<p>Number of participants: {{ data['participants'] }}</p>
+			<p>Price: {{ data['price'] }}</p>
+		
+		{% endif %}
 
 		<br><br>
 
