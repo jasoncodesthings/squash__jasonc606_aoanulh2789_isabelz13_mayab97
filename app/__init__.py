@@ -247,7 +247,7 @@ def activities():
                 pass
             data_lst.remove(item)
         
-        price_options[len(price_options)-1] = "max"
+        price_options[len(price_options)-1] = "0.4+"
         return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
     
     else: # url_err
