@@ -213,6 +213,7 @@ def activities():
     price = 10
     accessibility = 1
     duration = 0
+    child_friendly = 0
     if "category" in request.form:
         category = request.form.get("category")
     if "num_val" in request.form:
@@ -220,7 +221,10 @@ def activities():
         num_val = int(request.form.get("num_val"))
         price = int(request.form.get("price"))
         accessibility = int(request.form.get("accessibility"))
-        duration = int(request.form.get("duration"))
+    if "duration" in request.form:
+        duration = 1
+    if "child_friendly" in request.form:
+        child_friendly = 1
 
     # arrays of options for sliders--index corresponds to chosen option
     category_options = ["any", "education", "recreational", "social", "charity", "cooking", "relaxation", "busywork"]
@@ -253,7 +257,7 @@ def activities():
             data_lst.remove(item)
         
         price_options[len(price_options)-1] = "0.4+"
-        return render_template("activities.html", username=session['username'], data=data, category=category, category_options=category_options, num_val=num_val, num_val_options=num_val_options, price=price, price_options=price_options, accessibility=accessibility, accessibility_options=accessibility_options, duration=duration, duration_options=duration_options)
+        return render_template("activities.html", username=session['username'], data=data, category=category, category_options=category_options, num_val=num_val, num_val_options=num_val_options, price=price, price_options=price_options, accessibility=accessibility, accessibility_options=accessibility_options, duration=duration, child_friendly=child_friendly)
     
     else: # url_err
         return render_template("keyerror.html", API="Bored API", err=data_lst)

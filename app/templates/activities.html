@@ -53,9 +53,20 @@
 			</select>
 			<br>
 			
-			<!-- have a slider for each setting with a range equaling the number of options. indices of options array! -->
+			<!-- switches -->
+			{% if child_friendly == 1 %}
+				Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly" checked="yes"/>Not guarenteed<br>
+			{% else %}
+				Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly"/>Not guarenteed<br>
+			{% endif %}
+			{% if duration == 1 %}
+				Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration" checked="yes"/>Long activity (hours)<br>
+			{% else %}
+				Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration"/>Long activity (hours)<br>
+			{% endif %}
+			
+			<!-- sliders -->
 			People: <span id="ppl"></span> Exactly 1 person<input type="range" min="0" max="6" value={{ num_val }} name="num_val" id="num_val"/>Exactly 8 people<br>
-			Duration: <span id="dur"></span> Short activity (minutes)<input type="range" min="0" max="1" value={{ duration }} name="duration" id="duration"/>Long activity (hours)<br>
 			Price rating: <span id="prate"></span> No cost<input type="range" min="0" max="40" value={{ price }} name="price" id="price"/>Any cost (rated 0.4+)<br>
 			Accessibility: <span id="acc"></span> Few to no challenges<input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" id="accessibility"/>Up to major challenges<br>
 			<br>
