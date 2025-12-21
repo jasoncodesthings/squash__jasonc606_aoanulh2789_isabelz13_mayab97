@@ -232,6 +232,7 @@ def activities():
     price_options = [i for i in range(40)]
     for i in range(len(price_options)):
         price_options[i] *= 0.01
+        price_options[i] = float("{:.2f}".format(price_options[i]))
     price_options += [1.0]
     accessibility_options = ["Few to no challenges", "Minor challenges", "Some challenges", "Major challenges"]
     duration_options = ["minutes", "hours"]
@@ -257,7 +258,7 @@ def activities():
             data_lst.remove(item)
         
         price_options[len(price_options)-1] = "0.4+"
-        return render_template("activities.html", username=session['username'], data=data, category=category, category_options=category_options, num_val=num_val, num_val_options=num_val_options, price=price, price_options=price_options, accessibility=accessibility, accessibility_options=accessibility_options, duration=duration, child_friendly=child_friendly)
+        return render_template("activities.html", username=session['username'], data=data, category=category, category_options=category_options, num_val=num_val, num_val_options=json.dumps(num_val_options), price=price, price_options=json.dumps(price_options), accessibility=accessibility, accessibility_options=json.dumps(accessibility_options), duration=duration, child_friendly=child_friendly)
     
     else: # url_err
         return render_template("keyerror.html", API="Bored API", err=data_lst)
