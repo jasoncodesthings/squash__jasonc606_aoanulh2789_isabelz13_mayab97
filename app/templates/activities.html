@@ -23,11 +23,9 @@
 		
 		{% else %}
 
-			<!--display-->
-			<!-- make this a dropdown -->
-			<p>category: {{ data['type'] }}</p>
 			<!-- add kid friendly button -->
 			<h2>{{ data['activity'] }}</h2>
+			<p>Category: {{ data['type'] }}</p>
 			<p>Accessibility: {{ data['accessibility'] }}</p>
 			<p>Duration: {{ data['duration'] }}</p>
 			<p>Number of participants: {{ data['participants'] }}</p>
@@ -40,6 +38,16 @@
 		<!--settings-->
 		<p>Settings</p><br>
 		<form method="POST" action="activites">
+			<label for="category">Category:</label>
+			<select id="category" name="category">
+				{% for item in category_options %}
+					{% if item == category %}
+						<option value={{ item }} selected>{{ item }}</option>
+					{% else %}
+						<option value={{ item }}>{{ item }}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
 			<!-- have a slider for each setting with a range equaling the number of options. indices of options array! -->
 			Exactly:<br>
 			This number of people: 1<input type="range" min="0" max="6" value={{ num_val }} name="num_val" />8<br>

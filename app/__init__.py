@@ -208,18 +208,22 @@ def activities():
         return redirect(url_for("login"))
 
     # get values for sliders. set to default
+    category = "any"
     num_val = 1
     price = 10
     accessibility = 1
     duration = 0
+    if "category" in request.form:
+        category = request.form.get("category")
     if "num_val" in request.form:
-        # all values in here
+        # all values in here/not the first time loading this page
         num_val = int(request.form.get("num_val"))
         price = int(request.form.get("price"))
         accessibility = int(request.form.get("accessibility"))
         duration = int(request.form.get("duration"))
 
     # arrays of options for sliders--index corresponds to chosen option
+    category_options = ["any", "education", "recreational", "social", "charity", "cooking", "relaxation", "busywork"]
     num_val_options = [1, 2, 3, 4, 5, 6, 8]
     price_options = [i for i in range(40)]
     for i in range(len(price_options)):
@@ -248,7 +252,7 @@ def activities():
             data_lst.remove(item)
         
         price_options[len(price_options)-1] = "0.4+"
-        return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
+        return render_template("activities.html", username=session['username'], data=data, category=category, category_options=category_options, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
     
     else: # url_err
         return render_template("keyerror.html", API="Bored API", err=data_lst)
