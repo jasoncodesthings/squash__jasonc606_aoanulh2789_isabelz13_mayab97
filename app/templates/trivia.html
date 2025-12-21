@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/trivia.css') }}">
     <style type="text/tailwindcss">
       @theme {
         --font-title: "roboto", sans-serif;
@@ -14,50 +15,85 @@
       }
     </style>
 
-    <title>Squash's Trivia Page</title>
+    <title>Trivia</title>
   </head>
 
-  <body class="bg-linear-to-r from-green-300 to-violet-300">
-    <nav>
-      <a href="{{ url_for('home') }}">Home</a>
-      <a href="{{ url_for('jokes') }}">Jokes</a>
-      <a href="{{ url_for('trivia') }}">Trivia</a>
-      <a href="{{ url_for('activities') }}">Activities</a>
-      <a href="{{ url_for('logout') }}">Logout</a>
+  <body class="bg-linear-to-r from-green-300 to-violet-300 min-h-screen">
+
+    <nav class="flex items-center bg-gray-800 p-2">
+      <div class="w-50 flex-auto"></div>
+      <div class="flex flex-auto justify-center">
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+        <a href="{{ url_for('home') }}">Home</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+        <a href="{{ url_for('jokes') }}">Jokes</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+        <a href="{{ url_for('trivia') }}">You are here</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+        <a href="{{ url_for('activities') }}">Activities</a>
+        </button>
+
+        <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
+        <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+        <a href="{{ url_for('logout') }}">Logout</a>
+        </button>
+
+      </div>
+      <div class="w-50 flex-auto text-white text-left">
+        <p>{{ username }}</p>
+      </div>
     </nav>
 
-    <h2>The Ultimate Trivia Challenge</h2>
-    <p>logged in as {{ username }}</p>
-    <hr>
+    <h2 class="font-fancy text-4xl text-center my-4">The Ultimate Trivia Challenge</h2>
+    <p class="text-center">logged in as {{ username }}</p>
+    <hr class="my-4">
+
     <!-- Jinja conditional: if stage == "choose", show the difficulty buttons -->
     {% if stage == "choose" %}
-      <h3>Choose Your Fate</h3>
+      <h3 class="font-fancy text-3xl text-center my-4">Choose Your Fate</h3>
+
       <!-- Submits the chosen difficulty to /trivia via POST -->
-      <form action="{{ url_for('trivia') }}" method="post">
-        <button type="submit" name="difficulty" value="easy">Easy</button>
-        <button type="submit" name="difficulty" value="medium">Medium</button>
-        <button type="submit" name="difficulty" value="hard">Hard</button>
+      <form action="{{ url_for('trivia') }}" method="post" class="flex justify-center gap-4">
+        <button type="submit" name="difficulty" value="easy" class="bg-indigo-200 px-4 py-2 hover:bg-indigo-300">Easy</button>
+        <button type="submit" name="difficulty" value="medium" class="bg-indigo-200 px-4 py-2 hover:bg-indigo-300">Medium</button>
+        <button type="submit" name="difficulty" value="hard" class="bg-indigo-200 px-4 py-2 hover:bg-indigo-300">Hard</button>
       </form>
 
     {% else %}
      <!-- (stage == "question"), shows the question UI -->
-      <h3>Trivia Question:</h3>
-      <p id="question"></p>
+      <h3 class="font-fancy text-3xl text-center my-4">Trivia Question:</h3>
 
-      <p>Difficulty: <span id="difficulty"></span></p>
-      <p>Category: <span id="category"></span></p>
+      <p id="question" class="text-center"></p>
 
-      <div id="message"></div>
+      <p class="text-center">Difficulty: <span id="difficulty"></span></p>
+      <p class="text-center">Category: <span id="category"></span></p>
+
+      <div id="message" class="text-center font-bold my-2"></div>
+
       <!-- Shows total points from Flask (data.get_score(user)) -->
-      <p>Total Points: <span id="totalPoints">{{ points }}</span></p>
+      <p class="text-center">Total Points: <span id="totalPoints">{{ points }}</span></p>
 
-      <p>Answer Choices:</p>
+      <p class="text-center mt-4">Answer Choices:</p>
 
-      <form action="{{ url_for('trivia') }}" method="post" id="answerForm">
+      <form action="{{ url_for('trivia') }}" method="post" id="answerForm" class="flex flex-col items-center">
         <input type="hidden" name="current_difficulty" value="{{ chosen_difficulty }}">
         <input type="hidden" name="answer" id="selectedAnswer" value="">
-        <div id="answers"></div>
-        <button id="nextBtn" name="nextbtn" type="submit" disabled>Next</button>
+        <div id="answers" class="flex flex-wrap justify-center gap-2 my-4"></div>
+        <button id="nextBtn" name="nextbtn" type="submit"
+                class="px-4 py-2 bg-gray-500 text-white cursor-not-allowed"
+                disabled>
+          Next
+        </button>
       </form>
 
       <script>
