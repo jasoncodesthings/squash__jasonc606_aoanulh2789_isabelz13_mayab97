@@ -36,7 +36,9 @@
 		<br><br>
 
 		<!--settings-->
-		<p>Settings</p><br>
+		<p>Settings</p>
+		
+		<!--category-->
 		<form method="POST" action="activites">
 			<label for="category">Category:</label>
 			<select id="category" name="category">
@@ -48,17 +50,18 @@
 					{% endif %}
 				{% endfor %}
 			</select>
+			<br>
+			
 			<!-- have a slider for each setting with a range equaling the number of options. indices of options array! -->
-			Exactly:<br>
-			This number of people: 1<input type="range" min="0" max="6" value={{ num_val }} name="num_val" />8<br>
-			This duration: Minutes<input type="range" min="0" max="1" value={{ duration }} name="duration" />Hours<br>
+			Exactly 1 person<input type="range" min="0" max="6" value={{ num_val }} name="num_val" />Exactly 8 people<br>
+			Short activity (minutes)<input type="range" min="0" max="1" value={{ duration }} name="duration" />Long activity (hours)<br>
+			No cost<input type="range" min="0" max="40" value={{ price }} name="price" />Any cost (rated 0.4+)<br>
+			Few to no challenges<input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" />Up to major challenges<br>
 			<br>
-			Up to:<br>
-			This price rating 0<input type="range" min="0" max="40" value={{ price }} name="price" />0.4+<br>
-			This accessibility Few to no challenges<input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" />Major Challenges<br>
-			<!-- add 'consider factor' button for all above-->
-			<br>
+			
 			<input type="submit" value="Generate new" />
+			
 		</form>
+		
   </body>
 </html>

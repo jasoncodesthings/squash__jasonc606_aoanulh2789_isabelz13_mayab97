@@ -233,7 +233,8 @@ def activities():
     duration_options = ["minutes", "hours"]
 
     url = f"https://bored-api.appbrewery.com/filter?participants={num_val_options[num_val]}"
-    # add code to handle type selection
+    if category != "any":
+        url += f"&type={category}"
 
     data_lst = get_data(url)
     
