@@ -125,3 +125,10 @@ mayaB -- 2025-12-19 11:12
   - need to add labels, JS for displaying current value
   - need to add some buttons that disable considering them
   - still need to style
+
+aoanulH -- 2025-12-20 7:56
+- Removed trivia.css to integrate tailwind css directly into html file instead
+- Finished trivia and leaderboard css with teams css theme (colors, bg, navbar, etc)
+- Updated all pages using our navbar to introduce the leaderboard page
+- Updated trivia.js to add a different class to indicate the next button is enabled
+- Everything should be fine? Will need to consult team and bug test
