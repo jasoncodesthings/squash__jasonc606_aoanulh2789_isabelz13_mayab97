@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
           var btn = document.createElement("button");
           btn.type = "button";
           btn.textContent = decodeHtml(ansRaw);
+          btn.className = "bg-indigo-200 px-4 py-2 rounded hover:bg-indigo-300";
           btn.onclick = function() {
             if (answered) return;
             answered = true;
@@ -54,7 +55,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             disableAll();
-            document.getElementById("nextBtn").disabled = false;
+            var nextBtn = document.getElementById("nextBtn");
+            nextBtn.disabled = false;
+            nextBtn.classList.remove("bg-gray-500", "cursor-not-allowed");
+            nextBtn.classList.add("bg-indigo-500", "hover:bg-indigo-600", "cursor-pointer");
           };
           answersDiv.appendChild(btn);
           answersDiv.appendChild(document.createTextNode(" "));
