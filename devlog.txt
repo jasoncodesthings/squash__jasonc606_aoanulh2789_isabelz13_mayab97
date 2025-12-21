@@ -137,3 +137,7 @@ mayaB -- 2025-12-20 22:05
 - added dropdown for category, tested
 - shifted approach for sliders due to num_participants setting, should now actually make less calls :) good bc rate limit
 - generally made it clearer what was happening on the page
+
+mayaB -- 2025-12-21 15:49
+- wrote JS for activities page
+- moved JS to its own file
