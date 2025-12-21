@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
       @theme {
@@ -15,36 +16,69 @@
 
     <title>Leaderboard</title>
   </head>
-  <body>
-    <body class="bg-linear-to-r from-green-300 to-violet-300">
-        <nav>
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('jokes') }}">Jokes</a>
-        <a href="{{ url_for('trivia') }}">Trivia</a>
-        <a href="{{ url_for('activities') }}">Activities</a>
-        <a href="{{ url_for('logout') }}">Logout</a>
-        </nav>
 
-    <h2>Leaderboard</h2>
-    <p>Logged in as {{ username }}</p>
+  <body class="bg-linear-to-r from-green-300 to-violet-300 min-h-screen">
 
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Username</th>
-          <th>Score</th>
-        </tr>
-      </thead>
+    <nav class="flex items-center bg-gray-800 p-2">
+      <div class="w-50 flex-auto"></div>
+
+      <div class="flex flex-auto justify-center">
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+          <a href="{{ url_for('home') }}">Home</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+          <a href="{{ url_for('jokes') }}">Jokes</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+          <a href="{{ url_for('trivia') }}">Trivia</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+          <a href="{{ url_for('activities') }}">Activities</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+          <a href="#">You are here</a>
+        </button>
+
+        <button class="bg-black text-white border text-[20px] hover:bg-white hover:text-black">
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </button>
+
+      </div>
+
+      <div class="w-50 flex-auto text-white text-left">
+        <p>{{ username }}</p>
+      </div>
+    </nav>
+
+    <h2 class="font-fancy text-4xl text-center my-4">Leaderboard</h2>
+    <p class="text-center my-2">Logged in as {{ username }}</p>
+
+    <div class="flex justify-center mt-6">
+      <table class="border border-black bg-white text-center shadow-lg">
+        <thead class="bg-indigo-300">
+          <tr>
+            <th class="px-6 py-2">Rank</th>
+            <th class="px-6 py-2">Username</th>
+            <th class="px-6 py-2">Score</th>
+          </tr>
+        </thead>
+
         <tbody>
         {% for player in top_players %}
-            <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ player[0] }}</td> <!--  this is the username !-->
-            <td>{{ player[1] }}</td> <!--  this is the users points !-->
-            </tr>
+          <tr class="even:bg-indigo-100 odd:bg-white">
+            <td class="px-6 py-2">{{ loop.index }}</td>
+            <td class="px-6 py-2">{{ player[0] }}</td> <!--  this is the username !-->
+            <td class="px-6 py-2">{{ player[1] }}</td> <!--  this is the users points !-->
+          </tr>
         {% endfor %}
         </tbody>
-    </table>
+      </table>
+    </div>
+
   </body>
 </html>
