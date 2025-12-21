@@ -14,6 +14,7 @@ import json
 import sqlite3
 import data
 import time
+import random
 
 OPENTDB_COOLDOWN = 5.1 # Cooldown to avoid hitting rate limits
 trivia_opentdb_call = 0.0 # stores the last OpenTDB call
@@ -207,18 +208,22 @@ def activities():
         return redirect(url_for("login"))
 
     # get values for sliders. set to default
+    category = "any"
     num_val = 1
     price = 10
     accessibility = 1
     duration = 0
+    if "category" in request.form:
+        category = request.form.get("category")
     if "num_val" in request.form:
-        # all values in here
+        # all values in here/not the first time loading this page
         num_val = int(request.form.get("num_val"))
         price = int(request.form.get("price"))
         accessibility = int(request.form.get("accessibility"))
         duration = int(request.form.get("duration"))
 
     # arrays of options for sliders--index corresponds to chosen option
+    category_options = ["any", "education", "recreational", "social", "charity", "cooking", "relaxation", "busywork"]
     num_val_options = [1, 2, 3, 4, 5, 6, 8]
     price_options = [i for i in range(40)]
     for i in range(len(price_options)):
@@ -227,17 +232,31 @@ def activities():
     accessibility_options = ["Few to no challenges", "Minor challenges", "Some challenges", "Major challenges"]
     duration_options = ["minutes", "hours"]
 
-    url = "https://bored-api.appbrewery.com/random"
+    url = f"https://bored-api.appbrewery.com/filter?participants={num_val_options[num_val]}"
+    if category != "any":
+        url += f"&type={category}"
 
-    data = get_data(url)
-    while data != url_err and (float(data["price"]) > price_options[price] or accessibility_options.index(data["accessibility"]) > accessibility or data["duration"] != duration_options[duration]):
-        data = get_data(url)
-    if (data == url_err):
-        return render_template("keyerror.html", API="Bored API", err=data)
-
-    price_options[len(price_options)-1] = "max"
-
-    return render_template("activities.html", username=session['username'], data=data, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
+    data_lst = get_data(url)
+    
+    # select a random item from data_lst
+    data = ""
+    if data_lst != url_err:
+        
+        while len(data) == 0 and len(data_lst) > 0:
+            item = random.choice(data_lst)
+            # check if this item fulfills the conditions
+            try:
+                if not (float(item["price"]) > price_options[price] or accessibility_options.index(item["accessibility"]) > accessibility or item["duration"] != duration_options[duration]):
+                    data = item
+            except ValueError:
+                pass
+            data_lst.remove(item)
+        
+        price_options[len(price_options)-1] = "0.4+"
+        return render_template("activities.html", username=session['username'], data=data, category=category, category_options=category_options, num_val=num_val, price=price, accessibility=accessibility, duration=duration)
+    
+    else: # url_err
+        return render_template("keyerror.html", API="Bored API", err=data_lst)
 
 @app.route("/logout")
 def logout():
