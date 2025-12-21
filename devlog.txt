@@ -132,3 +132,8 @@ aoanulH -- 2025-12-20 7:56
 - Updated all pages using our navbar to introduce the leaderboard page
 - Updated trivia.js to add a different class to indicate the next button is enabled
 - Everything should be fine? Will need to consult team and bug test
+
+mayaB -- 2025-12-20 22:05
+- added dropdown for category, tested
+- shifted approach for sliders due to num_participants setting, should now actually make less calls :) good bc rate limit
+- generally made it clearer what was happening on the page
