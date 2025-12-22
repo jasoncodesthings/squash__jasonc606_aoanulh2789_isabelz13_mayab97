@@ -103,7 +103,7 @@
 		
 		<div class="container mx-auto bg-gray-800 py-8 px-4 rounded">
 			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
-				<p>Settings</p>
+				<h4 class="text-xl font-bold mb-2 text-gray-800">Settings</h4>
 				<br>
 				
 				<div class="grid grid-cols-1 md:grid-cols-16">
@@ -121,21 +121,46 @@
 								{% endfor %}
 							</select>
 						</div>
+						<div></div>
 					
 						<!-- switches -->
-						<div class="col-span-4">
+						<div class="col-span-4 ">
 							{% if child_friendly == 1 %}
-								Child-friendly guaranteed<input type="checkbox" value="no" name="child_friendly" checked="yes"/>Not guaranteed
+								Child-friendly guaranteed
+								<div class="relative inline-block w-11 h-5">
+									<input id="switch-component-1" checked="yes" value="no" name="child_friendly" type="checkbox" class="peer appearance-none w-11 h-5 bg-slate-100 rounded-full checked:bg-slate-800 cursor-pointer transition-colors duration-300" />
+									<label for="switch-component-1" class="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-slate-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-slate-800 cursor-pointer">
+									</label>
+								</div>
+								Not guaranteed
 							{% else %}
-								Child-friendly guaranteed<input type="checkbox" value="no" name="child_friendly"/>Not guaranteed
+								Child-friendly guaranteed
+								<div class="relative inline-block w-11 h-5">
+									<input id="switch-component-1" value="no" name="child_friendly" type="checkbox" class="peer appearance-none w-11 h-5 bg-slate-100 rounded-full checked:bg-slate-800 cursor-pointer transition-colors duration-300" />
+									<label for="switch-component-1" class="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-slate-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-slate-800 cursor-pointer">
+									</label>
+								</div>
+								Not guaranteed
 							{% endif %}
 						</div>
 						<div></div>
 						<div class="col-span-6">
 							{% if duration == 1 %}
-								Short activity (minutes)<input type="checkbox" value="long" name="duration" checked="yes"/>Long activity (hours)
+								Short activity (minutes)
+								<div class="relative inline-block w-11 h-5">
+									<input id="switch-component-1" type="checkbox" value="long" name="duration" checked="yes" class="peer appearance-none w-11 h-5 bg-slate-100 rounded-full checked:bg-slate-800 cursor-pointer transition-colors duration-300" />
+									<label for="switch-component-1" class="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-slate-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-slate-800 cursor-pointer">
+									</label>
+								</div>
+								Long activity (hours)
 							{% else %}
-								Short activity (minutes)<input type="checkbox" value="long" name="duration"/>Long activity (hours)
+								Short activity (minutes)
+								<div class="relative inline-block w-11 h-5">
+									<input id="switch-component-1" type="checkbox" value="long" name="duration" class="peer appearance-none w-11 h-5 bg-slate-100 rounded-full checked:bg-slate-800 cursor-pointer transition-colors duration-300" />
+									<label for="switch-component-1" class="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-slate-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-slate-800 cursor-pointer">
+									</label>
+								</div>
+								Long activity (hours)
 							{% endif %}
 						</div>
 					</div>
@@ -146,6 +171,7 @@
 					
 						<div class="col-span-2"> People: </div>
 						<div class="col-span-2"><span id="ppl"></span></div>
+						<div></div>
 						<div class="col-span-2"> 1 person</div>
 						<div class="col-span-3"><input type="range" min="0" max="6" value={{ num_val }} name="num_val" id="num_val"/></div>
 						<div class="col-span-2"> 8 people</div>
@@ -153,6 +179,7 @@
 					<div class="grid grid-cols-1 md:grid-cols-16">
 						<div class="col-span-2"> Price rating: </div>
 						<div class="col-span-2"><span id="prate"></span></div>
+						<div></div>
 						<div class="col-span-2"> No cost</div>
 						<div class="col-span-3"><input type="range" min="0" max="40" value={{ price }} name="price" id="price"/></div>
 						<div class="col-span-3"> Up to any cost (rated 0.4+)</div>
@@ -160,16 +187,15 @@
 					<div class="grid grid-cols-1 md:grid-cols-16">
 						<div class="col-span-2"> Accessibility: </div>
 						<div class="col-span-2"><span id="acc"></span></div>
+						<div></div>
 						<div class="col-span-2"> Few to no challenges</div>
 						<div class="col-span-3"><input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" id="accessibility"/></div>
 						<div class="col-span-3"> Up to major challenges</div>
 					</div>
 				
 				</div>
-				
-				<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
-					<input type="submit" value="Generate new" />
-				</div>
+				<br>
+				<center><input class="text-center w-200 bg-white text-orange-700 px-8 py-3 rounded-full font-semibold hover:bg-orange-400 hover:text-white transition transform hover:scale-105" type="submit" value="Generate new"/></center>
 				
 			</form>
 			
