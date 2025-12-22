@@ -58,8 +58,6 @@
 
     <h3 class="font-fancy text-3xl text-center text-[40px]">Your activity is...</h3><br>
 		
-		<div class="container mx-auto bg-gray-800 py-1 rounded"></div><br>
-		
 		<div class="container mx-auto bg-gray-800 py-8 px-4 rounded">
 
 			{% if data == "" %}
@@ -106,43 +104,68 @@
 		<div class="container mx-auto bg-gray-800 py-8 px-4 rounded">
 			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
 				<p>Settings</p>
-			</div>
-			
-			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
-				<!--category-->
-				<form method="POST" action="activites">
-					<label for="category">Category:</label>
-					<select id="category" name="category">
-						{% for item in category_options %}
-							{% if item == category %}
-								<option value={{ item }} selected>{{ item }}</option>
+				<br>
+				
+				<div class="grid grid-cols-1 md:grid-cols-16">
+					<!--category-->
+					<div class="col-span-4">
+						<form method="POST" action="activites">
+							<label for="category">Category:</label>
+							<select id="category" name="category">
+								{% for item in category_options %}
+									{% if item == category %}
+										<option value={{ item }} selected>{{ item }}</option>
+									{% else %}
+										<option value={{ item }}>{{ item }}</option>
+									{% endif %}
+								{% endfor %}
+							</select>
+						</div>
+					
+						<!-- switches -->
+						<div class="col-span-4">
+							{% if child_friendly == 1 %}
+								Child-friendly guaranteed<input type="checkbox" value="no" name="child_friendly" checked="yes"/>Not guaranteed
 							{% else %}
-								<option value={{ item }}>{{ item }}</option>
+								Child-friendly guaranteed<input type="checkbox" value="no" name="child_friendly"/>Not guaranteed
 							{% endif %}
-						{% endfor %}
-					</select>
+						</div>
+						<div></div>
+						<div class="col-span-6">
+							{% if duration == 1 %}
+								Short activity (minutes)<input type="checkbox" value="long" name="duration" checked="yes"/>Long activity (hours)
+							{% else %}
+								Short activity (minutes)<input type="checkbox" value="long" name="duration"/>Long activity (hours)
+							{% endif %}
+						</div>
+					</div>
+					
 					<br>
-				
-					<!-- switches -->
-					{% if child_friendly == 1 %}
-						Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly" checked="yes"/>Not guarenteed<br>
-					{% else %}
-						Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly"/>Not guarenteed<br>
-					{% endif %}
-					{% if duration == 1 %}
-						Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration" checked="yes"/>Long activity (hours)
-					{% else %}
-						Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration"/>Long activity (hours)
-					{% endif %}
-					<br>
-				
 					<!-- sliders -->
-					People: <span id="ppl"></span> 1 person<input type="range" min="0" max="6" value={{ num_val }} name="num_val" id="num_val"/>8 people<br>
-					Price rating: <span id="prate"></span> No cost<input type="range" min="0" max="40" value={{ price }} name="price" id="price"/>Up to any cost (rated 0.4+)<br>
-					Accessibility: <span id="acc"></span> at most Few to no challenges<input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" id="accessibility"/>Up to major challenges<br>
+					<div class="grid grid-cols-1 md:grid-cols-16">
+					
+						<div class="col-span-2"> People: </div>
+						<div class="col-span-2"><span id="ppl"></span></div>
+						<div class="col-span-2"> 1 person</div>
+						<div class="col-span-3"><input type="range" min="0" max="6" value={{ num_val }} name="num_val" id="num_val"/></div>
+						<div class="col-span-2"> 8 people</div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-16">
+						<div class="col-span-2"> Price rating: </div>
+						<div class="col-span-2"><span id="prate"></span></div>
+						<div class="col-span-2"> No cost</div>
+						<div class="col-span-3"><input type="range" min="0" max="40" value={{ price }} name="price" id="price"/></div>
+						<div class="col-span-3"> Up to any cost (rated 0.4+)</div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-16">
+						<div class="col-span-2"> Accessibility: </div>
+						<div class="col-span-2"><span id="acc"></span></div>
+						<div class="col-span-2"> Few to no challenges</div>
+						<div class="col-span-3"><input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" id="accessibility"/></div>
+						<div class="col-span-3"> Up to major challenges</div>
+					</div>
 				
 				</div>
-				<br>
 				
 				<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
 					<input type="submit" value="Generate new" />
