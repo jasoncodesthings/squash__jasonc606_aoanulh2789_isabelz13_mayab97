@@ -251,7 +251,7 @@ def activities():
             item = random.choice(data_lst)
             # check if this item fulfills the conditions
             try:
-                if not (float(item["price"]) > price_options[price] or accessibility_options.index(item["accessibility"]) > accessibility or item["duration"] != duration_options[duration]):
+                if not (float(item["price"]) > price_options[price] or accessibility_options.index(item["accessibility"]) > accessibility or item["duration"] != duration_options[duration] or (child_friendly == 0 and not item["kidFriendly"])):
                     data = item
             except ValueError:
                 pass
