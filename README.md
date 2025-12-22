@@ -7,7 +7,7 @@ Cure My Boredom is a website specially designed to entertain you in less than fi
 To install our website, follow these instructions.
 
 1) Clone the repository from Github in which the website resides in by typing the following in your terminal:
-`git@github.com:jasoncodesthings/squash__jasonc606_aoanulh2789_isabelz13_mayab97.git Cure_My_Boredom`
+`git clone git@github.com:jasoncodesthings/squash__jasonc606_aoanulh2789_isabelz13_mayab97.git Cure_My_Boredom`
 
 2) Open a virtual environment for the website by typing the following:
 `python3 -m venv venv`
