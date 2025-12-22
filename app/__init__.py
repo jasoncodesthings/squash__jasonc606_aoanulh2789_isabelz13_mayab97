@@ -199,7 +199,7 @@ def get_joke():
 def jokes():
     joke_db = get_joke()
     if (joke_db == url_err):
-        return render_template ("keyerror.html", API = "Jokes API", err = joke_data)
+        return render_template ("keyerror.html", API = "Jokes API", err = joke_db)
     return render_template("jokes.html", username = session['username'], joke = joke_db)
 
 @app.route("/activites", methods=["GET", "POST"])
@@ -243,7 +243,6 @@ def activities():
         url += f"&type={category}"
 
     data_lst = get_data(url)
-
     # select a random item from data_lst
     data = ""
     if data_lst != url_err:
