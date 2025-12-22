@@ -102,43 +102,55 @@
 		<br><br>
 
 		<!--settings-->
-		<p>Settings</p>
 		
-		<!--category-->
-		<form method="POST" action="activites">
-			<label for="category">Category:</label>
-			<select id="category" name="category">
-				{% for item in category_options %}
-					{% if item == category %}
-						<option value={{ item }} selected>{{ item }}</option>
+		<div class="container mx-auto bg-gray-800 py-8 px-4 rounded">
+			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
+				<p>Settings</p>
+			</div>
+			
+			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
+				<!--category-->
+				<form method="POST" action="activites">
+					<label for="category">Category:</label>
+					<select id="category" name="category">
+						{% for item in category_options %}
+							{% if item == category %}
+								<option value={{ item }} selected>{{ item }}</option>
+							{% else %}
+								<option value={{ item }}>{{ item }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+					<br>
+				
+					<!-- switches -->
+					{% if child_friendly == 1 %}
+						Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly" checked="yes"/>Not guarenteed<br>
 					{% else %}
-						<option value={{ item }}>{{ item }}</option>
+						Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly"/>Not guarenteed<br>
 					{% endif %}
-				{% endfor %}
-			</select>
-			<br>
+					{% if duration == 1 %}
+						Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration" checked="yes"/>Long activity (hours)
+					{% else %}
+						Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration"/>Long activity (hours)
+					{% endif %}
+					<br>
+				
+					<!-- sliders -->
+					People: <span id="ppl"></span> 1 person<input type="range" min="0" max="6" value={{ num_val }} name="num_val" id="num_val"/>8 people<br>
+					Price rating: <span id="prate"></span> No cost<input type="range" min="0" max="40" value={{ price }} name="price" id="price"/>Up to any cost (rated 0.4+)<br>
+					Accessibility: <span id="acc"></span> at most Few to no challenges<input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" id="accessibility"/>Up to major challenges<br>
+				
+				</div>
+				<br>
+				
+				<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
+					<input type="submit" value="Generate new" />
+				</div>
+				
+			</form>
 			
-			<!-- switches -->
-			{% if child_friendly == 1 %}
-				Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly" checked="yes"/>Not guarenteed<br>
-			{% else %}
-				Child-friendly: Guarenteed<input type="checkbox" value="no" name="child_friendly"/>Not guarenteed<br>
-			{% endif %}
-			{% if duration == 1 %}
-				Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration" checked="yes"/>Long activity (hours)<br>
-			{% else %}
-				Duration: Short activity (minutes)<input type="checkbox" value="long" name="duration"/>Long activity (hours)<br>
-			{% endif %}
-			
-			<!-- sliders -->
-			People: <span id="ppl"></span> 1 person<input type="range" min="0" max="6" value={{ num_val }} name="num_val" id="num_val"/>8 people<br>
-			Price rating: <span id="prate"></span> No cost<input type="range" min="0" max="40" value={{ price }} name="price" id="price"/>Up to any cost (rated 0.4+)<br>
-			Accessibility: <span id="acc"></span> at most Few to no challenges<input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" id="accessibility"/>Up to major challenges<br>
-			<br>
-			
-			<input type="submit" value="Generate new" />
-			
-		</form>
+		</div>
 		
 		<script src="{{ url_for('static', filename='js/activities.js') }}"></script>
 		<script> init({{ num_val_options|safe }}, {{ price_options|safe }}, {{ accessibility_options|safe }}); </script>
