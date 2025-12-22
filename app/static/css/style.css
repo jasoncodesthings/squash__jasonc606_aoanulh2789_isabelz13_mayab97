@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
 .font-fancy{
   font-family: 'Lavishly Yours', cursive;
+}
+
+.font-trivia{
+  font-family: 'Press Start 2P', cursive;
+}
+
+.font-jokes{
+  font-family: 'Luckiest Guy', cursive;
 }

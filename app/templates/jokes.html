@@ -49,27 +49,32 @@
     </button>
     </div>
 
-    <div class = "w-50 flex-auto text-white text-left">
+    <div class = "w-50 flex-auto text-white text-right">
     <p>{{ username }}</p>
     </div>
   </nav>
-    <div class = "h-screen flex items-center justify-center"> 
+    <div class = "h-screen flex items-center justify-center">
     <div class = "box-content h-auto w-auto p-4 bg-indigo-200">
-    <h2>jokes</h2>
-    <p class = "text-center">logged in as {{ username }}</p>
+    <h2 class = "font-jokes text-[40px]">jokes</h2>
+    <!--<p class = "text-center">logged in as {{ username }}</p>-->
     {% if joke %}
         {% if joke.type == "single" %}
-             <p>{{joke.joke}}</p> <!--separates the setup for a joke-->
+             <p class = "font-jokes">{{joke.joke}}</p> <!--separates the setup for a joke-->
         {% elif joke.type == "twopart" %}
-             <p>{{joke.setup}}</p>
-             <p>{{joke.delivery}}</p>
+             <p class = "font-jokes">{{joke.setup}}</p>
+             <p class = "font-jokes">{{joke.delivery}}</p>
         {% else %}
-             <p> Unexpected joke format</p>
+             <p class = "font-jokes"> Unexpected joke format</p>
         {% endif %}
     {% endif %}
     <br>
-    <a href = "{{url_for('jokes')}}"> Get Another Joke </a> <!--creates a link to regenerate jokes-->
- </div>  
+    <div class = "flex justify-center">
+      <button class = "font-jokes bg-pastel-blue border-1 w-6/11 hover:bg-white rounded-full">
+      <a href="{{ url_for('jokes') }}">Get Another Joke</a>
+      </button>
+    </div>
+    <!--<a class = "font-jokes" href = "{{url_for('jokes')}}"> Get Another Joke </a> creates a link to regenerate jokes-->
+ </div>
  </body>
-     </div> 
+     </div>
 </html>
