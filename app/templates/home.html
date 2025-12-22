@@ -56,21 +56,50 @@
 
     <h2 class = "font-fancy text-center text-[80px]">Welcome to Cure My Boredom!</h2>
 
-    <div class = "text-center">
+    <div class = "font-fancy text-center text-[60px]">
       <p>Logged in as {{ username }}</p>
       <p>Trivia points: {{ points }}</p>
-      <br>
-      <br>
-      <p class = "text-[100px]">Click on one of these activities and have fun!</p>
+      <p class = "font-fancy text-[45px]">Click on one of these activities and have fun!</p>
     </div>
 
     <br>
 
     <div class = "flex flex-auto justify-center">
       <div class = "grid grid-cols-3 gap-3 w-99/100">
-        <div class = "text-center bg-red-200 border-4 border-red-300 rounded-xl"><p>card 1</p></div>
-        <div class = "text-center bg-teal-200 border-4 border-teal-300 rounded-xl"><p>card 2</p></div>
-        <div class = "text-center bg-yellow-200 border-4 border-yellow-300 rounded-xl"><p>card 3</p></div>
+
+        <div class = "text-center bg-red-200 border-4 border-red-300 rounded-xl">
+          <h2 class = "font-jokes text-[25px]">Get a good laugh with some jokes!</h2>
+
+          <div class = "flex justify-center"><img class = "items-center" src = "/static/images/laughingclown.gif" alt = "Beautiful Clown"></div>
+
+          <button class = "bg-pastel-blue border-1 w-33/100 hover:bg-white rounded-full">
+          <a href="{{ url_for('jokes') }}">Cure My Boredom!</a>
+          </button>
+        </div>
+
+        <div class = "text-center bg-teal-200 border-4 border-teal-300 rounded-xl">
+          <h2 class = "font-trivia text-[20px]">Train your brain with some trivia!!</h2>
+
+          <div class = "flex justify-center"><img class = "items-center" src = "/static/images/question.png" alt = "Beautiful Clown"></div>
+
+          <button class = "bg-pastel-blue border-1 w-33/100 hover:bg-white rounded-full">
+          <a href="{{ url_for('trivia') }}">Cure My Boredom!</a>
+          </button>
+        </div>
+
+        <div class = "text-center bg-yellow-200 border-4 border-yellow-300 rounded-xl">
+          <h2 class = "font-fancy text-[50px]">Find something good to do!</h2>
+
+          <div class = "flex justify-center"><img class = "items-center" src = "/static/images/list.png" alt = "Beautiful Clown"></div>
+
+          <br>
+          <br>
+
+          <button class = "bg-pastel-blue border-1 w-33/100 hover:bg-white rounded-full">
+          <a href="{{ url_for('activities') }}">Cure My Boredom!</a>
+          </button>
+        </div>
+
       </div>
     </div>
 
