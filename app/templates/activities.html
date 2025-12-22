@@ -1,38 +1,103 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <!--<link rel="stylesheet" type="text/css" href="../static/style.css">-->
-    <title>Acitivies</title>
-  </head>
-  <body>
 	
-    <nav>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type = "text/tailwindcss">
+      @theme {
+        --font-title: "roboto", sans-serif;
+        --font-mono: "in", inconsolata;
+        --color-pastel-blue: #d4f5ff;
+        --color-pizza: #0000FF;
+      }
+    </style>
+			
+    <title>Acitivies</title>
+		
+  </head>
+	
+  <body class = "bg-linear-to-r from-blue-300 to-orange-300">
+	
+    <nav class = "flex items-center bg-gray-800 p-2 align-items: center">
+      <div class = "w-50 flex-auto"></div>
+
+      <div class = "flex flex-auto justify-center">
+      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('home') }}">Home</a>
+      </button>
+
+      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('jokes') }}">Jokes</a>
+      </button>
+
+      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('trivia') }}">Trivia</a>
+      </button>
+
+      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('activities') }}">You are here</a>
+      </button>
+
+      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+      </button>
+
+      <button class = "bg-black text-white border-1 text-[20px] hover:bg-white hover:text-black">
       <a href="{{ url_for('logout') }}">Logout</a>
+      </button>
+      </div>
+
+      <div class = "w-50 flex-auto text-white text-right">
+      <p>{{ username }}</p>
+      </div>
     </nav>
 
-    <h3>Generate An Activity...</h3>
+    <h3 class="font-fancy text-3xl text-center text-[40px]">Your activity is...</h3><br>
+		
+		<div class="container mx-auto bg-gray-800 py-1 rounded"></div><br>
+		
+		<div class="container mx-auto bg-gray-800 py-8 px-4 rounded">
 
-		{% if data == "" %}
-		
-			<h2>No such activity in our database. Try different settings!</h2>
-		
-		{% else %}
-
-			<!-- add kid friendly button -->
-			<h2>{{ data['activity'] }}</h2>
-			<p>Category: {{ data['type'] }}</p>
-			<p>Accessibility: {{ data['accessibility'] }}</p>
-			<p>Duration: {{ data['duration'] }}</p>
-			<p>Number of participants: {{ data['participants'] }}</p>
-			<p>Price: {{ data['price'] }}</p>
-		
-		{% endif %}
+			{% if data == "" %}
+			
+				<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
+					<h2 class="text-center font-fancy font-bold text-[60px]">Changing the settings!</h2>
+					<p>Cuz we don't have an activity that checks all your conditions in our database :P sorry!</p>
+				</div>
+			
+			{% else %}
+			
+			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
+			
+				<div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+					<div class="bg-gray-400 text-white rounded-lg flex items-center justify-center mb-4">
+						<span class="text-2m">{{ data['type'] }}</span>
+					</div>
+					<div class="bg-gray-400 text-white rounded-lg flex items-center justify-center mb-4">
+						<span class="text-2m">{{ data['accessibility'] }}</span>
+					</div>
+					<div class="bg-gray-400 text-white rounded-lg flex items-center justify-center mb-4">
+						<span class="text-2m">{{ data['duration'] }} long</span>
+					</div>
+					<div class="bg-gray-400 text-white rounded-lg flex items-center justify-center mb-4">
+						<span class="text-2m">{{ data['participants'] }} person(s)</span>
+					</div>
+					<div class="bg-gray-400 text-white rounded-lg flex items-center justify-center mb-4">
+						<span class="text-2m">price {{ data['price'] }} in range 0-4.0+</span>
+					</div>
+				</div>
+				
+				<h2 class="text-center font-fancy text-gray-800 font-bold text-[60px]">{{ data['activity'] }}</h2>
+				
+			</div>
+			
+			{% endif %}
+			
+		</div>
 
 		<br><br>
 
