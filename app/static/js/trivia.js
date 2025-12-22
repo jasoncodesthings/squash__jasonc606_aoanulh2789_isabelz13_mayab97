@@ -1,3 +1,9 @@
+// Squash (Jason Chan, Aoanul Hoque, Isabel Zheng, Maya Berchin)
+// SoftDev
+// P01: ArRESTed Development
+// 2025-12-22
+// time spent: 2 hours
+
 // need to use dotcomloaded (wrapper waiting for html elements to load before javascript is ran)
 document.addEventListener("DOMContentLoaded", function () {
         // Get trivia data cause its in jinja from html (have to use window)
