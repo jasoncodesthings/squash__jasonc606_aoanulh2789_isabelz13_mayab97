@@ -144,3 +144,6 @@ mayaB -- 2025-12-21 15:49
 
 mayaB -- 2025-12-21 23:47
 - think I finished styling the activities page
+
+jasonC -- 2025-12-22 0:41
+- finished styling on most pages
