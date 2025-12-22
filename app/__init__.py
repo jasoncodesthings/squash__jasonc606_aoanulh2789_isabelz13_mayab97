@@ -1,7 +1,8 @@
 # Squash (Jason Chan, Aoanul Hoque, Isabel Zheng, Maya Berchin)
-# p01
 # SoftDev
-# 11/25/25--2025-12-22
+# P01: ArRESTed Development
+# 2025-12-22
+# time spent: 2 hours
 
 from flask import Flask
 from flask import render_template
@@ -242,12 +243,10 @@ def activities():
         url += f"&type={category}"
 
     data_lst = get_data(url)
-    print(data_lst)
-    
     # select a random item from data_lst
     data = ""
     if data_lst != url_err:
-        
+
         while len(data) == 0 and len(data_lst) > 0:
             item = random.choice(data_lst)
             # check if this item fulfills the conditions
@@ -257,10 +256,10 @@ def activities():
             except ValueError:
                 pass
             data_lst.remove(item)
-        
+
         price_options[len(price_options)-1] = "0.4+"
         return render_template("activities.html", username=session['username'], data=data, category=category, category_options=category_options, num_val=num_val, num_val_options=json.dumps(num_val_options), price=price, price_options=json.dumps(price_options), accessibility=accessibility, accessibility_options=json.dumps(accessibility_options), duration=duration, child_friendly=child_friendly)
-    
+
     else: # url_err
         return render_template("keyerror.html", API="Bored API", err=data_lst)
 

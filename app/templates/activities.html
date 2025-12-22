@@ -1,7 +1,16 @@
 <!DOCTYPE html>
+
+<!--
+  Squash (Jason Chan, Aoanul Hoque, Isabel Zheng, Maya Berchin)
+  SoftDev
+  P01: ArRESTed Development
+  2025-12-22
+  time spent: 1.5 hrs
+ -->
+
 <html lang="en" dir="ltr">
   <head>
-	
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -15,13 +24,13 @@
         --color-pizza: #0000FF;
       }
     </style>
-			
+
     <title>Acitivies</title>
-		
+
   </head>
-	
+
   <body class = "bg-linear-to-r from-blue-300 to-orange-300">
-	
+
     <nav class = "flex items-center bg-gray-800 p-2 align-items: center">
       <div class = "w-50 flex-auto"></div>
 
@@ -57,20 +66,20 @@
     </nav>
 
     <h3 class="font-fancy text-3xl text-center text-[40px]">Your activity is...</h3><br>
-		
+
 		<div class="container mx-auto bg-gray-800 py-8 px-4 rounded">
 
 			{% if data == "" %}
-			
+
 				<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
 					<h2 class="text-center font-fancy font-bold text-[60px]">Changing the settings!</h2>
 					<p class="text-center">Cuz we don't have an activity that checks all your conditions in our database :P sorry!</p>
 				</div>
-			
+
 			{% else %}
-			
+
 			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
-			
+
 				<div class="grid grid-cols-1 md:grid-cols-5 gap-8">
 					<div class="bg-gray-400 text-white rounded-lg flex items-center justify-center mb-4">
 						<span class="text-2m">{{ data['type'] }}</span>
@@ -88,24 +97,24 @@
 						<span class="text-2m">price {{ data['price'] }} in range 0-4.0+</span>
 					</div>
 				</div>
-				
+
 				<h2 class="text-center font-fancy text-gray-800 font-bold text-[60px]">{{ data['activity'] }}</h2>
-				
+
 			</div>
-			
+
 			{% endif %}
-			
+
 		</div>
 
 		<br><br>
 
 		<!--settings-->
-		
+
 		<div class="container mx-auto bg-gray-800 py-8 px-4 rounded">
 			<div class="bg-white rounded-lg shadow-md hover:shadow-2xl transition p-6">
 				<h4 class="text-xl font-bold mb-2 text-gray-800">Settings</h4>
 				<br>
-				
+
 				<div class="grid grid-cols-1 md:grid-cols-16">
 					<!--category-->
 					<div class="col-span-4">
@@ -122,7 +131,7 @@
 							</select>
 						</div>
 						<div></div>
-					
+
 						<!-- switches -->
 						<div class="col-span-4 ">
 							{% if child_friendly == 1 %}
@@ -164,11 +173,11 @@
 							{% endif %}
 						</div>
 					</div>
-					
+
 					<br>
 					<!-- sliders -->
 					<div class="grid grid-cols-1 md:grid-cols-16">
-					
+
 						<div class="col-span-2"> People: </div>
 						<div class="col-span-2"><span id="ppl"></span></div>
 						<div></div>
@@ -192,17 +201,17 @@
 						<div class="col-span-3"><input type="range" min="0" max="3" value={{ accessibility }} name="accessibility" id="accessibility"/></div>
 						<div class="col-span-3"> Up to major challenges</div>
 					</div>
-				
+
 				</div>
 				<br>
 				<center><input class="text-center w-200 bg-white text-orange-700 px-8 py-3 rounded-full font-semibold hover:bg-orange-400 hover:text-white transition transform hover:scale-105" type="submit" value="Generate new"/></center>
-				
+
 			</form>
-			
+
 		</div>
-		
+
 		<script src="{{ url_for('static', filename='js/activities.js') }}"></script>
 		<script> init({{ num_val_options|safe }}, {{ price_options|safe }}, {{ accessibility_options|safe }}); </script>
-		
+
   </body>
 </html>

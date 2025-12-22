@@ -1,7 +1,7 @@
 # Squash (Jason Chan, Aoanul Hoque, Isabel Zheng, Maya Berchin)
-# p01
 # SoftDev
-# 11/25/25--2025-12-22
+# P01: ArRESTed Development
+# 2025-12-22
 # Time spent: not that much on this file tbh, mostly recycling. ~40 mins?
 
 import sqlite3                      # enable control of an sqlite database
@@ -69,7 +69,7 @@ def get_top_players():
     db.close()
 
     return top_players
-    
+
 #----------USERDATA-MUTATORS----------#
 
 
@@ -204,4 +204,3 @@ def modify_field(table, ID_fieldname, ID, field, new_val):
 
     db.commit()
     db.close()
-
