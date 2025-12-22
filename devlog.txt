@@ -141,3 +141,6 @@ mayaB -- 2025-12-20 22:05
 mayaB -- 2025-12-21 15:49
 - wrote JS for activities page
 - moved JS to its own file
+
+mayaB -- 2025-12-21 23:47
+- think I finished styling the activities page
